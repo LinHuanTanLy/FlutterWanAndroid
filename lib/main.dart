@@ -1,0 +1,105 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_app/page/MinePage.dart';
+import 'package:flutter_app/page/SystemPage.dart';
+
+import 'page/IndexPage.dart';
+
+void main() {
+  if (Platform.isAndroid) {
+    SystemUiOverlayStyle systemUiOverlayStyle =
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+  }
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _currIndex = 0;
+  static const double ICON_WIDTH = 24;
+  static const double ICON_WIDTH_ACTIVE = 26;
+  List<Widget> _listContent = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _initContainer();
+    return Scaffold(
+      body: _listContent[_currIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: _initBottom(),
+        currentIndex: _currIndex,
+        unselectedFontSize: 10,
+        selectedFontSize: 12,
+        onTap: (index) {
+          setState(() {
+            _currIndex = index;
+          });
+        },
+      ),
+    );
+  }
+
+  /// 初始化菜单栏
+  _initContainer() {
+    _listContent.add(IndexPage());
+    _listContent.add(SystemPage());
+    _listContent.add(MinePage());
+  }
+
+  /// 初始化下面的button Menu
+  List<BottomNavigationBarItem> _initBottom() {
+    List<BottomNavigationBarItem> list = [];
+    list.add(_initBottomNavigationBarItem(
+        'images/huime_icon_shouye.png', 'images/me_icon_shouye.png', '首页'));
+    list.add(_initBottomNavigationBarItem(
+        'images/huime_icon_faxian.png', 'images/me_icon_faxian.png', '发现'));
+    list.add(_initBottomNavigationBarItem(
+        'images/huime_icon_wo.png', 'images/me_icon_wo.png', '我的'));
+    return list;
+  }
+
+  /// 初始化单个的item
+  BottomNavigationBarItem _initBottomNavigationBarItem(
+      String defIcon, String activeIcon, String menuStr) {
+    return BottomNavigationBarItem(
+        activeIcon: Image.asset(
+          activeIcon,
+          width: ICON_WIDTH_ACTIVE,
+          height: ICON_WIDTH_ACTIVE,
+        ),
+        icon: Image.asset(
+          defIcon,
+          width: ICON_WIDTH,
+          height: ICON_WIDTH,
+        ),
+        title: Container(
+          child: Text(menuStr),
+          margin: const EdgeInsets.only(top: 4),
+        ));
+  }
+}
