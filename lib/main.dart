@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currIndex = 0;
   static const double ICON_WIDTH = 24;
   static const double ICON_WIDTH_ACTIVE = 26;
-  List<Widget> _listContent = [];
+  IndexedStack _listContent;
 
   @override
   void initState() {
@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     _initContainer();
     return Scaffold(
-      body: _listContent[_currIndex],
+      body: _listContent,
       bottomNavigationBar: BottomNavigationBar(
         items: _initBottom(),
         currentIndex: _currIndex,
@@ -66,9 +66,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   /// 初始化菜单栏
   _initContainer() {
-    _listContent.add(IndexPage());
-    _listContent.add(SystemPage());
-    _listContent.add(MinePage());
+    _listContent=new IndexedStack(children: <Widget>[
+      IndexPage(),
+      SystemPage(),
+      MinePage()
+    ],index: _currIndex,);
+//    _listContent.add(IndexPage());
+//    _listContent.add(SystemPage());
+//    _listContent.add(MinePage());
   }
 
   /// 初始化下面的button Menu

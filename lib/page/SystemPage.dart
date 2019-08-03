@@ -5,9 +5,17 @@ class SystemPage extends StatefulWidget {
   _SystemPageState createState() => _SystemPageState();
 }
 
-class _SystemPageState extends State<SystemPage> {
+class _SystemPageState extends State<SystemPage>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text('SystemPage'),);
+    super.build(context);//必须添加
+    return Container(
+      child: Text('SystemPage'),
+    );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

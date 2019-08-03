@@ -5,13 +5,13 @@ import 'package:flutter_app/common/bean/impl/banner_bean_impl_entity.dart';
 import 'package:flutter_app/common/dao/ArticleDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/utils/comm/StringUtils.dart';
+import 'package:flutter_app/widget/ArticleWidget.dart';
+import 'package:flutter_app/widget/LyAppBar.dart';
 
-class IndexPage extends StatefulWidget {
-  @override
-  _IndexPageState createState() => _IndexPageState();
-}
+import 'article/ArticleDetailPage.dart';
+import 'article/ArticleListPage.dart';
 
-class _IndexPageState extends State<IndexPage> {
+class _IndexPageState extends State<IndexPage>  with AutomaticKeepAliveClientMixin{
   ArticleDao _articleDao;
 
   BannerBeanImplEntity _bannerBeanImplEntity;
@@ -34,67 +34,29 @@ class _IndexPageState extends State<IndexPage> {
     super.initState();
   }
 
+  /// 查看更多文章
+  _toMoreArticle() {
+    Navigator.push(context,
+        new MaterialPageRoute(builder: (BuildContext context) {
+      return new ArticleListPage();
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);//必须添加
     return Scaffold(
       appBar: _initAppBar(),
       body: ListView.separated(
         separatorBuilder: (BuildContext context, int index) {
-          return index != 0
-              ? Container(
-                  height: 10,
-                  margin: const EdgeInsets.only(top: 10, bottom: 10),
-                  color: ColorConf.colorF0F0F0,
-                )
-              : Container(
-                  margin: const EdgeInsets.only(
-                      left: 10, right: 10, top: 10, bottom: 10),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                              child: Row(
-                            children: <Widget>[
-                              Icon(
-                                Icons.whatshot,
-                                color: Colors.green,
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(left: 4),
-                                child: Text(
-                                  '文章列表',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                              )
-                            ],
-                          )),
-                          Text(
-                            '更多文章',
-                            style: TextStyle(
-                                fontSize: 13, color: ColorConf.color929292),
-                          ),
-                          Icon(
-                            Icons.chevron_right,
-                            color: ColorConf.color929292,
-                          )
-                        ],
-                      ),
-                      Divider(),
-                    ],
-                  ),
-                );
+          return index != 0 ? _renderCommLine() : _renderTopLine();
         },
         padding: const EdgeInsets.all(0),
         itemBuilder: (context, index) {
           if (index == 0) {
             return _renderBanner();
           } else {
-            return _renderListViewItem(index - 1);
+            return _renderListViewItem(context, index - 1);
           }
         },
         itemCount: _articleTopImplEntity != null
@@ -104,87 +66,68 @@ class _IndexPageState extends State<IndexPage> {
     );
   }
 
-  /// 渲染listView item
-  Widget _renderListViewItem(int index) {
-    var data = _articleTopImplEntity.data.datas[index];
+  ///  普通的分割线
+  Widget _renderCommLine() {
     return Container(
-      margin: const EdgeInsets.only(left: 14, right: 14, top: 4, bottom: 4),
+      height: 10,
+      margin: const EdgeInsets.only(top: 10, bottom: 10),
+      color: ColorConf.colorF0F0F0,
+    );
+  }
+
+  /// 第一条的分割线
+  Widget _renderTopLine() {
+    return Container(
+      margin: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
             children: <Widget>[
               Expanded(
-                  flex: 1,
                   child: Row(
-                    children: <Widget>[
-                      Container(
-                        width: 26,
-                        height: 26,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  'https://www.wanandroid.com/resources/image/pc/logo.png'),
-                              fit: BoxFit.cover),
-                          border: Border.all(
-                              color: ColorConf.color929292, width: 1),
-                        ),
+                children: <Widget>[
+                  Icon(
+                    Icons.whatshot,
+                    color: Colors.green,
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 4),
+                    child: Text(
+                      '文章列表',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.green,
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 4),
-                        child: Text(
-                          data.author,
-                          style: TextStyle(
-                              fontSize: 14, color: ColorConf.color929292),
-                        ),
-                      )
-                    ],
-                  )),
-              Text(
-                '${data.superChapterName}/${data.chapterName}',
-                style: TextStyle(fontSize: 14, color: ColorConf.color929292),
+                    ),
+                  )
+                ],
+              )),
+              InkWell(
+                child: Text(
+                  '更多文章',
+                  style: TextStyle(fontSize: 13, color: ColorConf.color929292),
+                ),
+                onTap: () {
+                  _toMoreArticle();
+                },
+              ),
+              Icon(
+                Icons.chevron_right,
+                color: ColorConf.color929292,
               )
             ],
           ),
-          Container(
-            margin: const EdgeInsets.only(top: 10),
-            child: Text(
-              data.title,
-              textAlign: TextAlign.start,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  fontSize: 15,
-                  color: ColorConf.color000000,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 14),
-            child: Row(
-              children: <Widget>[
-                Image.asset(
-                  'images/icon_like.png',
-                  width: 16,
-                  height: 16,
-                  color: ColorConf.color929292,
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 4),
-                  child: Text(
-                    '${data.zan}',
-                    style:
-                        TextStyle(fontSize: 14, color: ColorConf.color929292),
-                  ),
-                ),
-              ],
-            ),
-          )
+          Divider(),
         ],
       ),
     );
+  }
+
+  /// 渲染listView item
+  Widget _renderListViewItem(context, int index) {
+    var data = _articleTopImplEntity.data.datas[index];
+    return ArticleWidget.renderListViewItem(context, data);
   }
 
   /// 渲染banner
@@ -202,57 +145,24 @@ class _IndexPageState extends State<IndexPage> {
           );
         },
         onBannerClickListener: (index, data) {
-          print(index);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (BuildContext context) {
+            return new ArticleDetailPage(data.title, data.url);
+          }));
         },
       ),
     );
   }
 
   AppBar _initAppBar() {
-    return AppBar(
-      backgroundColor: Colors.green,
-      title: Row(
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: ColorConf.colorF2F2F2,
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8)),
-              padding:
-                  const EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6),
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.search,
-                    color: ColorConf.color929292,
-                  ),
-                  Text(
-                    '搜索文章/标签',
-                    style:
-                        TextStyle(fontSize: 14, color: ColorConf.color929292),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Container(
-              child: Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.settings,
-                    size: 18,
-                  ),
-                  Text(
-                    '标签',
-                    style:
-                        TextStyle(fontSize: 15, color: ColorConf.colorFFFFFF),
-                  )
-                ],
-              ),
-              margin: const EdgeInsets.only(left: 10))
-        ],
-      ),
-    );
+    return LyAppBar.searchAppBar();
   }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class IndexPage extends StatefulWidget {
+  @override
+  _IndexPageState createState() => _IndexPageState();
 }

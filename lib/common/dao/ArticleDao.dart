@@ -19,8 +19,8 @@ class ArticleDao {
     }
   }
 
-  Future<ArticleListImplEntity> getArticleTop() async {
-    var result = await httpUtils.netFetch('article/list/0/json');
+  Future<ArticleListImplEntity> getArticleTop({int page}) async {
+    var result = await httpUtils.netFetch('article/list/${page ?? 0}/json');
     if (result != null) {
       return ArticleListImplEntity.fromJson(result);
     } else {
