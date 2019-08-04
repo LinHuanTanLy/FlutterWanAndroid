@@ -23,7 +23,6 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 

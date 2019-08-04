@@ -11,7 +11,8 @@ class LyAppBar {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-          fontSize: 16,
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
           color: ColorConf.colorFFFFFF,
         ),
       ),

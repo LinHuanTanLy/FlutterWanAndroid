@@ -1,17 +1,12 @@
 import 'package:flutter_app/common/bean/impl/article_list_impl_entity.dart';
 import 'package:flutter_app/common/bean/impl/banner_bean_impl_entity.dart';
-import 'package:flutter_app/utils/http/HttpUtils.dart';
 
-class ArticleDao {
-  HttpUtils httpUtils;
+import 'BaseDao.dart';
 
-  ArticleDao() {
-    httpUtils = new HttpUtils();
-  }
-
+class ArticleDao extends BaseDao {
   /// 获取banner
   Future<BannerBeanImplEntity> getBanner() async {
-    var result = await httpUtils.netFetch('banner/json');
+    var result = await getHttpUtils().netFetch('banner/json');
     if (result != null) {
       return BannerBeanImplEntity.fromJson(result);
     } else {
@@ -19,8 +14,9 @@ class ArticleDao {
     }
   }
 
+  /// 获取文章列表
   Future<ArticleListImplEntity> getArticleTop({int page}) async {
-    var result = await httpUtils.netFetch('article/list/${page ?? 0}/json');
+    var result = await getHttpUtils().netFetch('article/list/${page ?? 0}/json');
     if (result != null) {
       return ArticleListImplEntity.fromJson(result);
     } else {

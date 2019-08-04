@@ -3,19 +3,8 @@ import 'package:flutter_app/common/bean/impl/article_list_impl_entity.dart';
 import 'package:flutter_app/common/dao/ArticleDao.dart';
 import 'package:flutter_app/widget/ArticleWidget.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
-import 'package:flutter_easyrefresh/ball_pulse_footer.dart';
-import 'package:flutter_easyrefresh/ball_pulse_header.dart';
-import 'package:flutter_easyrefresh/bezier_bounce_footer.dart';
-import 'package:flutter_easyrefresh/bezier_circle_header.dart';
-import 'package:flutter_easyrefresh/bezier_hour_glass_header.dart';
-import 'package:flutter_easyrefresh/delivery_header.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_easyrefresh/material_footer.dart';
 import 'package:flutter_easyrefresh/material_header.dart';
-import 'package:flutter_easyrefresh/phoenix_footer.dart';
-import 'package:flutter_easyrefresh/phoenix_header.dart';
-import 'package:flutter_easyrefresh/taurus_footer.dart';
-import 'package:flutter_easyrefresh/taurus_header.dart';
 
 class ArticleListPage extends StatefulWidget {
   @override
@@ -45,12 +34,14 @@ class _ArticleListPageState extends State<ArticleListPage> {
 
   _loadList() {
     _articleDao.getArticleTop(page: _currPage).then((value) {
-      if (_currPage == 0) {
-        _articleList.clear();
-        _articleList.addAll(value.data.datas);
-      } else {
-        _articleList.addAll(value.data.datas);
-      }
+      setState(() {
+        if (_currPage == 0) {
+          _articleList.clear();
+          _articleList.addAll(value.data.datas);
+        } else {
+          _articleList.addAll(value.data.datas);
+        }
+      });
     });
   }
 
@@ -74,11 +65,15 @@ class _ArticleListPageState extends State<ArticleListPage> {
             ),
             onRefresh: () async {
               await new Future.delayed(const Duration(seconds: 1), () {
-                setState(() {});
+                _currPage = 1;
+                _loadList();
               });
             },
             loadMore: () async {
-              await new Future.delayed(const Duration(seconds: 1), () {});
+              await new Future.delayed(const Duration(seconds: 1), () {
+                _currPage++;
+                _loadList();
+              });
             },
             child: ListView.separated(
                 itemBuilder: (context, index) {
