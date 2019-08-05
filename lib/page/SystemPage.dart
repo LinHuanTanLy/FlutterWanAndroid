@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/common/bean/impl/system_tree_impl_entity.dart';
 import 'package:flutter_app/common/dao/SystemDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
+import 'package:flutter_app/page/system/SystemArticlePage.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
 
 class SystemPage extends StatefulWidget {
@@ -72,6 +73,7 @@ class _SystemPageState extends State<SystemPage>
     'http://www.33lc.com/article/UploadPic/2012-10/2012101516251932049.jpg',
     'http://b-ssl.duitang.com/uploads/item/201407/09/20140709174327_HEreN.jpeg'
   ];
+
   @override
   void initState() {
     _dao = new SystemDao();
@@ -180,28 +182,39 @@ class _SystemPageState extends State<SystemPage>
             childAspectRatio: 1,
             maxCrossAxisExtent: 200),
         itemBuilder: (context, index) {
-          return Container(
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-                border: Border.all(color: ColorConf.color929292, width: 0.5),
-                borderRadius: BorderRadius.circular(10)),
-            child: Column(
-              children: <Widget>[
-                Image.network(
-                    'https://www.wanandroid.com/resources/image/pc/logo.png'),
-                Container(
-                  child: Text(
-                    data[_currIndex].children[index].name,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: ColorConf.color48586D,
+          return InkWell(
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  border: Border.all(color: ColorConf.color929292, width: 0.5),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Column(
+                children: <Widget>[
+                  Image.network(
+                      'https://www.wanandroid.com/resources/image/pc/logo.png'),
+                  Container(
+                    child: Text(
+                      data[_currIndex].children[index].name,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: ColorConf.color48586D,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
+            onTap: () {
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (BuildContext context) {
+                return new SystemArticlePage(
+                  cId:  data[_currIndex].children[index].id.toString(),
+                  title: data[_currIndex].children[index].name,
+                );
+              }));
+            },
           );
         });
   }

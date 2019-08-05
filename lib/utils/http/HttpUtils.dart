@@ -28,6 +28,7 @@ class HttpUtils {
   }
 
   netFetch(url, {params, Map<String, dynamic> header, Options options}) async {
+    print('the url is $url');
     Map<String, dynamic> headers = new HashMap();
     if (header != null) {
       headers.addAll(header);
