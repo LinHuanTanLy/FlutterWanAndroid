@@ -1,5 +1,7 @@
 import 'package:flutter_app/common/bean/impl/article_list_impl_entity.dart';
 import 'package:flutter_app/common/bean/impl/banner_bean_impl_entity.dart';
+import 'package:flutter_app/common/bean/impl/project_list_child_impl_entity.dart';
+import 'package:flutter_app/common/bean/impl/project_tree_impl_entity.dart';
 import 'package:flutter_app/common/bean/impl/system_tree_impl_entity.dart';
 
 class EntityFactory {
@@ -10,6 +12,10 @@ class EntityFactory {
       return ArticleListImplEntity.fromJson(json) as T;
     } else if (T.toString() == "BannerBeanImplEntity") {
       return BannerBeanImplEntity.fromJson(json) as T;
+    } else if (T.toString() == "ProjectListChildImplEntity") {
+      return ProjectListChildImplEntity.fromJson(json) as T;
+    } else if (T.toString() == "ProjectTreeImplEntity") {
+      return ProjectTreeImplEntity.fromJson(json) as T;
     } else if (T.toString() == "SystemTreeImplEntity") {
       return SystemTreeImplEntity.fromJson(json) as T;
     } else {

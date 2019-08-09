@@ -54,6 +54,40 @@ flutter:
     - images/huime_icon_wo.png
     - images/huime_icon_faxian.png
     - images/icon_like.png
+    - images/ani_1.png
+    - images/ani_2.png
+    - images/ani_3.png
+    - images/ani_4.png
+    - images/ani_5.png
+    - images/ani_6.png
+    - images/ani_7.png
+    - images/ani_8.png
+    - images/ani_9.png
+    - images/ani_10.png
+    - images/ani_11.png
+    - images/ani_12.png
+    - images/ani_13.png
+    - images/ani_14.png
+    - images/ani_15.png
+    - images/ani_16.png
+    - images/ani_17.png
+    - images/ani_18.png
+    - images/ani_19.png
+    - images/ani_20.png
+    - images/ani_21.png
+    - images/ani_22.png
+    - images/ani_23.png
+    - images/ani_24.png
+    - images/ani_25.png
+    - images/ani_26.png
+    - images/ani_27.png
+    - images/ani_28.png
+    - images/ani_29.png
+    - images/ani_30.png
+    - images/ani_31.png
+    - images/ani_32.png
+    - images/icon_author.png
+    - images/right_arrow.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

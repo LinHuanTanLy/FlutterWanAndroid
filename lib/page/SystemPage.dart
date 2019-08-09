@@ -174,7 +174,7 @@ class _SystemPageState extends State<SystemPage>
     debugPrint('长度是${data.length}');
     debugPrint('爸爸的励志语长度是${_imgList.length}');
     return GridView.builder(
-        itemCount: data[_currIndex].children.length,
+        itemCount: data.isNotEmpty ? data[_currIndex].children.length : 0,
         padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             mainAxisSpacing: 10,
@@ -210,7 +210,7 @@ class _SystemPageState extends State<SystemPage>
               Navigator.push(context,
                   new MaterialPageRoute(builder: (BuildContext context) {
                 return new SystemArticlePage(
-                  cId:  data[_currIndex].children[index].id.toString(),
+                  cId: data[_currIndex].children[index].id.toString(),
                   title: data[_currIndex].children[index].name,
                 );
               }));

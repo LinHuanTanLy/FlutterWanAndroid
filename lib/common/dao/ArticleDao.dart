@@ -16,11 +16,20 @@ class ArticleDao extends BaseDao {
 
   /// 获取文章列表
   Future<ArticleListImplEntity> getArticleTop({int page}) async {
-    var result = await getHttpUtils().netFetch('article/list/${page ?? 0}/json');
+    var result =
+        await getHttpUtils().netFetch('article/list/${page ?? 0}/json');
     if (result != null) {
       return ArticleListImplEntity.fromJson(result);
     } else {
       return new ArticleListImplEntity();
     }
+  }
+
+  List<String> getProjectsIconsList() {
+    List<String> _list = [];
+    for (int i = 16; i < 32; i++) {
+      _list.add('images/ani_$i.png');
+    }
+    return _list;
   }
 }

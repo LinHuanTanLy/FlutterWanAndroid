@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 
 class LyAppBar {
-  static AppBar commAppBar(String titleStr) {
+  static AppBar commAppBar(String titleStr,{Widget bottom}) {
     return AppBar(
       backgroundColor: Colors.green,
       centerTitle: true,
+      bottom: bottom,
       title: Text(
         titleStr,
         maxLines: 1,
@@ -19,6 +20,7 @@ class LyAppBar {
     );
   }
 
+
   /// 首页 假的搜索框
   static AppBar searchAppBar() {
     return AppBar(
@@ -29,7 +31,7 @@ class LyAppBar {
             child: Container(
               decoration: BoxDecoration(
                   color: ColorConf.colorF2F2F2,
-                  border: Border.all(color: Colors.grey),
+                  border: Border.all(color: ColorConf.colorF2F2F2),
                   borderRadius: BorderRadius.circular(8)),
               padding:
                   const EdgeInsets.only(left: 8, right: 8, top: 6, bottom: 6),

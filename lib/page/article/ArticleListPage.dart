@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/bean/impl/article_list_impl_entity.dart';
 import 'package:flutter_app/common/dao/ArticleDao.dart';
+import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/widget/ArticleWidget.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -81,7 +82,7 @@ class _ArticleListPageState extends State<ArticleListPage> {
                       context, _articleList[index]);
                 },
                 separatorBuilder: (BuildContext context, int index) {
-                  return Divider();
+                  return Container(color: ColorConf.colorF0F0F0,height: 10,margin: const EdgeInsets.only(top: 10,bottom: 10),);
                 },
                 itemCount: _articleList.length)),
       ),

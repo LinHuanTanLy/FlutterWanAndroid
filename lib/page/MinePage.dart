@@ -13,6 +13,5 @@ class _MinePageState extends State<MinePage> with AutomaticKeepAliveClientMixin{
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

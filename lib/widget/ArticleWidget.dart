@@ -9,7 +9,7 @@ class ArticleWidget {
       BuildContext context, ArticleListImplDataData data) {
     return InkWell(
       child: Container(
-        margin: const EdgeInsets.only(left: 14, right: 14, top: 4, bottom: 4),
+        margin: const EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 4),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -21,16 +21,16 @@ class ArticleWidget {
                     child: Row(
                       children: <Widget>[
                         Container(
-                          width: 26,
-                          height: 26,
+                          width: 20,
+                          height: 20,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                                image: NetworkImage(
-                                    'https://www.wanandroid.com/resources/image/pc/logo.png'),
+                                image: AssetImage(
+                                    'images/icon_author.png'),
                                 fit: BoxFit.cover),
                             border: Border.all(
-                                color: ColorConf.color929292, width: 1),
+                                color: ColorConf.color929292, width: 0.5),
                           ),
                         ),
                         Container(
@@ -68,8 +68,8 @@ class ArticleWidget {
                 children: <Widget>[
                   Image.asset(
                     'images/icon_like.png',
-                    width: 16,
-                    height: 16,
+                    width: 13,
+                    height: 13,
                     color: ColorConf.color929292,
                   ),
                   Container(
