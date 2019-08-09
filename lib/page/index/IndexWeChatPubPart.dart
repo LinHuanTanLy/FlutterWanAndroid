@@ -18,7 +18,7 @@ class _IndexWeChatPubPartState extends State<IndexWeChatPubPart>
   @override
   void initState() {
     _weChatPubDao = new WeChatPubDao();
-    _weChatPubDao.getArticleTop().then((value) {
+    _weChatPubDao.getWeChatList().then((value) {
       setState(() {
         List<WeChatPubListImplData> _list = [];
         _list.addAll(value.data);

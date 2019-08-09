@@ -9,6 +9,7 @@ import 'package:flutter_app/common/dao/ProjectDao.dart';
 import 'package:flutter_app/common/dao/WeChatPubDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/page/projects/ProjectsListPage.dart';
+import 'package:flutter_app/page/wechatPub/WechatPubListPage.dart';
 import 'package:flutter_app/widget/ArticleWidget.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
 
@@ -60,6 +61,12 @@ class _IndexPageState extends State<IndexPage>
     }));
   }
 
+  _toMoreWeChat(){
+    Navigator.push(context,
+        new MaterialPageRoute(builder: (BuildContext context) {
+          return new WeChatPubListPage();
+        }));
+  }
   ///  查看更多项目
   _toMoreProjects({int index}) {
     Navigator.push(context,
@@ -86,7 +93,7 @@ class _IndexPageState extends State<IndexPage>
             return _renderParticularLine(
               "公众号列表",
               isHideMore: false,
-              callBack: _toMoreArticle,
+              callBack: _toMoreWeChat,
               icons: 'images/wechat_public.png',
             );
           } else if (index == 2) {

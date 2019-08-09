@@ -48,6 +48,7 @@ class _ProjectsListPageState extends State<ProjectsListPage>
   Widget build(BuildContext context) {
     if (_tabController == null)
       _tabController = new TabController(length: _list.length, vsync: this);
+    if (defIndex != null) _tabController.animateTo(defIndex);
     return Scaffold(
       appBar: LyAppBar.commAppBar('更多项目', bottom: _initBottomTabBar()),
       body: TabBarView(
