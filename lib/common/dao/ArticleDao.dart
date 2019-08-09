@@ -25,6 +25,7 @@ class ArticleDao extends BaseDao {
     }
   }
 
+  /// 获取本地的图片
   List<String> getProjectsIconsList() {
     List<String> _list = [];
     for (int i = 16; i < 32; i++) {

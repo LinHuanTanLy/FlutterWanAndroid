@@ -32,6 +32,7 @@ class _ProjectsListPageState extends State<ProjectsListPage>
       setState(() {
         if (value.data != null) {
           _list.addAll(value.data);
+          _tabController = new TabController(length: _list.length, vsync: this);
         }
       });
     });
@@ -47,8 +48,6 @@ class _ProjectsListPageState extends State<ProjectsListPage>
   Widget build(BuildContext context) {
     if (_tabController == null)
       _tabController = new TabController(length: _list.length, vsync: this);
-
-//    _tabController.animateTo(defIndex ?? 0);
     return Scaffold(
       appBar: LyAppBar.commAppBar('更多项目', bottom: _initBottomTabBar()),
       body: TabBarView(

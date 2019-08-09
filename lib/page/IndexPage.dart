@@ -3,8 +3,10 @@ import 'package:banner/banner.dart';
 import 'package:flutter_app/common/bean/impl/article_list_impl_entity.dart';
 import 'package:flutter_app/common/bean/impl/banner_bean_impl_entity.dart';
 import 'package:flutter_app/common/bean/impl/project_tree_impl_entity.dart';
+import 'package:flutter_app/common/bean/impl/we_chat_pub_list_impl_entity.dart';
 import 'package:flutter_app/common/dao/ArticleDao.dart';
 import 'package:flutter_app/common/dao/ProjectDao.dart';
+import 'package:flutter_app/common/dao/WeChatPubDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/page/projects/ProjectsListPage.dart';
 import 'package:flutter_app/widget/ArticleWidget.dart';
@@ -12,20 +14,24 @@ import 'package:flutter_app/widget/LyAppBar.dart';
 
 import 'article/ArticleDetailPage.dart';
 import 'article/ArticleListPage.dart';
+import 'index/IndexWeChatPubPart.dart';
 
 class _IndexPageState extends State<IndexPage>
     with AutomaticKeepAliveClientMixin {
   ArticleDao _articleDao;
   ProjectDao _projectDao;
 
+
   BannerBeanImplEntity _bannerBeanImplEntity;
   ArticleListImplEntity _articleTopImplEntity;
   ProjectTreeImplEntity _projectTreeImplEntity;
+
 
   @override
   void initState() {
     _articleDao = new ArticleDao();
     _projectDao = new ProjectDao();
+
     _articleDao.getBanner().then((value) {
       setState(() {
         _bannerBeanImplEntity = value;
@@ -33,7 +39,7 @@ class _IndexPageState extends State<IndexPage>
     });
     _articleDao.getArticleTop().then((value) {
       setState(() {
-        debugPrint('the value is $value');
+        debugPrint('the value is ${value.data.datas.length}');
         _articleTopImplEntity = value;
       });
     });
@@ -73,12 +79,21 @@ class _IndexPageState extends State<IndexPage>
           if (index == 0) {
             return _renderParticularLine("项目列表",
                 rightMsg: '更多项目',
-                icons: Icons.local_library,
+                icons: 'images/projects.png',
                 isHideMore: false,
                 callBack: _toMoreProjects);
           } else if (index == 1) {
+            return _renderParticularLine(
+              "公众号列表",
+              isHideMore: false,
+              callBack: _toMoreArticle,
+              icons: 'images/wechat_public.png',
+            );
+          } else if (index == 2) {
             return _renderParticularLine("文章列表",
-                isHideMore: false, callBack: _toMoreArticle);
+                isHideMore: false,
+                callBack: _toMoreArticle,
+                icons: 'images/fire.png');
           } else {
             return _renderCommLine();
           }
@@ -89,13 +104,15 @@ class _IndexPageState extends State<IndexPage>
             return _renderBanner();
           } else if (index == 1) {
             return _renderProjectList();
+          } else if (index == 2) {
+            return IndexWeChatPubPart();
           } else {
-            return _renderListViewItem(context, index - 1);
+            return _renderListViewItem(context, index - 3);
           }
         },
         itemCount: _articleTopImplEntity != null
-            ? _articleTopImplEntity.data.datas.length + 1
-            : 1,
+            ? _articleTopImplEntity.data.datas.length + 3
+            : 3,
       ),
     );
   }
@@ -119,9 +136,10 @@ class _IndexPageState extends State<IndexPage>
           children: <Widget>[
             Row(
               children: <Widget>[
-                Icon(
-                  icons ?? Icons.whatshot,
-                  color: Colors.green,
+                Image.asset(
+                  icons ?? 'images/wechat_public.png',
+                  width: 22,
+                  height: 22,
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 4, right: 4),
@@ -207,6 +225,7 @@ class _IndexPageState extends State<IndexPage>
       ),
     );
   }
+
 
   /// 渲染banner
   Widget _renderBanner() {

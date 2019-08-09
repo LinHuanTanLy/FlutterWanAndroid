@@ -88,6 +88,28 @@ flutter:
     - images/ani_32.png
     - images/icon_author.png
     - images/right_arrow.png
+    - images/fire.png
+    - images/projects.png
+    - images/wechat_public.png
+    - images/author_pic0.jpg
+    - images/author_pic1.jpg
+    - images/author_pic2.jpg
+    - images/author_pic3.jpg
+    - images/author_pic4.jpg
+    - images/author_pic5.jpg
+    - images/author_pic6.jpg
+    - images/author_pic7.jpg
+    - images/author_pic8.jpg
+    - images/author_pic9.jpg
+    - images/author_pic10.jpg
+    - images/author_pic11.jpg
+    - images/author_pic12.jpg
+    - images/author_pic13.jpg
+    - images/author_pic14.jpg
+    - images/author_pic15.jpg
+    - images/author_pic16.jpg
+    - images/author_pic17.jpg
+    - images/author_pic18.jpg
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
