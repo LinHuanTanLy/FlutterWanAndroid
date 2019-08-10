@@ -8,16 +8,23 @@ import 'WeChatPubChildPage.dart';
 
 /// 微信公众号列表
 class WeChatPubListPage extends StatefulWidget {
+  final int defPageIndex;
+
+  WeChatPubListPage({this.defPageIndex});
+
   @override
-  _WeChatPubListPageState createState() => _WeChatPubListPageState();
+  _WeChatPubListPageState createState() =>
+      _WeChatPubListPageState(defPageIndex);
 }
 
 class _WeChatPubListPageState extends State<WeChatPubListPage>
     with TickerProviderStateMixin {
   WeChatPubDao _weChatPubDao;
   List<WeChatPubListImplData> _listForWeChatList = [];
-
+  final int defPageIndex;
   TabController _tabController;
+
+  _WeChatPubListPageState(this.defPageIndex);
 
   @override
   void initState() {
@@ -37,6 +44,9 @@ class _WeChatPubListPageState extends State<WeChatPubListPage>
     if (_tabController == null) {
       _tabController =
           new TabController(length: _listForWeChatList.length, vsync: this);
+    }
+    if (defPageIndex != null) {
+      _tabController.animateTo(defPageIndex);
     }
     return Scaffold(
       appBar: LyAppBar.commAppBar('公众号列表',

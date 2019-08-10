@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/common/bean/impl/we_chat_pub_list_impl_entity.dart';
 import 'package:flutter_app/common/dao/WeChatPubDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
+import 'package:flutter_app/page/wechatPub/WechatPubListPage.dart';
 
 class IndexWeChatPubPart extends StatefulWidget {
   @override
@@ -90,29 +91,41 @@ class _IndexWeChatPubPartState extends State<IndexWeChatPubPart>
             mainAxisSpacing: 6,
             childAspectRatio: 0.75),
         itemBuilder: (context, index) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      image: AssetImage(_authorPicList[currIndex * 8 + index]),
-                      fit: BoxFit.cover),
-                  border: Border.all(color: ColorConf.color929292, width: 0.5),
+          return InkWell(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image:
+                            AssetImage(_authorPicList[currIndex * 8 + index]),
+                        fit: BoxFit.cover),
+                    border:
+                        Border.all(color: ColorConf.color929292, width: 0.5),
+                  ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 10),
-                child: Text(
-                  _weChatPubList[currIndex][index].name,
-                  style: TextStyle(fontSize: 12, color: ColorConf.color48586D),
-                ),
-              )
-            ],
+                Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  child: Text(
+                    _weChatPubList[currIndex][index].name,
+                    style:
+                        TextStyle(fontSize: 12, color: ColorConf.color48586D),
+                  ),
+                )
+              ],
+            ),
+            onTap: () {
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (BuildContext context) {
+                return new WeChatPubListPage(
+                    defPageIndex: currIndex * 8 + index);
+              }));
+            },
           );
         },
         itemCount: _weChatPubList[currIndex].length,
