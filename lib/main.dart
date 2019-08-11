@@ -36,8 +36,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _currIndex = 0;
-  static const double ICON_WIDTH = 24;
-  static const double ICON_WIDTH_ACTIVE = 26;
+  static const double ICON_WIDTH = 22;
+  static const double ICON_WIDTH_ACTIVE = 24;
   IndexedStack _listContent;
 
   @override
@@ -55,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: _currIndex,
         unselectedFontSize: 10,
         selectedFontSize: 12,
+        iconSize: 16,
         onTap: (index) {
           setState(() {
             _currIndex = index;

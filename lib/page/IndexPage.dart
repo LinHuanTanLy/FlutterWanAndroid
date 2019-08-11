@@ -3,10 +3,8 @@ import 'package:banner/banner.dart';
 import 'package:flutter_app/common/bean/impl/article_list_impl_entity.dart';
 import 'package:flutter_app/common/bean/impl/banner_bean_impl_entity.dart';
 import 'package:flutter_app/common/bean/impl/project_tree_impl_entity.dart';
-import 'package:flutter_app/common/bean/impl/we_chat_pub_list_impl_entity.dart';
 import 'package:flutter_app/common/dao/ArticleDao.dart';
 import 'package:flutter_app/common/dao/ProjectDao.dart';
-import 'package:flutter_app/common/dao/WeChatPubDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/page/projects/ProjectsListPage.dart';
 import 'package:flutter_app/page/wechatPub/WechatPubListPage.dart';
@@ -16,17 +14,16 @@ import 'package:flutter_app/widget/LyAppBar.dart';
 import 'article/ArticleDetailPage.dart';
 import 'article/ArticleListPage.dart';
 import 'index/IndexWeChatPubPart.dart';
+import 'login/LoginPage.dart';
 
 class _IndexPageState extends State<IndexPage>
     with AutomaticKeepAliveClientMixin {
   ArticleDao _articleDao;
   ProjectDao _projectDao;
 
-
   BannerBeanImplEntity _bannerBeanImplEntity;
   ArticleListImplEntity _articleTopImplEntity;
   ProjectTreeImplEntity _projectTreeImplEntity;
-
 
   @override
   void initState() {
@@ -61,12 +58,13 @@ class _IndexPageState extends State<IndexPage>
     }));
   }
 
-  _toMoreWeChat(){
+  _toMoreWeChat() {
     Navigator.push(context,
         new MaterialPageRoute(builder: (BuildContext context) {
-          return new WeChatPubListPage();
-        }));
+      return new WeChatPubListPage();
+    }));
   }
+
   ///  查看更多项目
   _toMoreProjects({int index}) {
     Navigator.push(context,
@@ -233,7 +231,6 @@ class _IndexPageState extends State<IndexPage>
     );
   }
 
-
   /// 渲染banner
   Widget _renderBanner() {
     return new Container(
@@ -259,7 +256,14 @@ class _IndexPageState extends State<IndexPage>
   }
 
   AppBar _initAppBar() {
-    return LyAppBar.searchAppBar();
+    return LyAppBar.searchAppBar(
+        callBackForInput: () {
+          Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context){
+              return new LoginPage();
+          }));
+        }, callBackForRight: () {
+
+    });
   }
 
   @override
