@@ -66,7 +66,7 @@ class _IndexWeChatPubPartState extends State<IndexWeChatPubPart>
   /// 渲染微信公众号模块
   Widget _renderWeChatPublic() {
     return SizedBox.fromSize(
-      size: Size.fromHeight(240),
+      size: Size.fromHeight(MediaQuery.of(context).size.width *0.68),
       child: Card(
         elevation: 0.2,
         child: PageView.builder(

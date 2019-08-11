@@ -9,7 +9,7 @@ import 'package:flutter_app/page/system/SystemArticlePage.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
 
 import 'article/ArticleDetailPage.dart';
-
+///  体系页面
 class SystemPage extends StatefulWidget {
   @override
   _SystemPageState createState() => _SystemPageState();
