@@ -4,6 +4,7 @@ import 'package:flutter_app/common/dao/UserDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/redux/AppState.dart';
 import 'package:flutter_app/redux/action/UserUpdateAction.dart';
+import 'package:flutter_app/utils/toast/ToastUtils.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
 import 'package:flutter_app/widget/ShowLoadDialog.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -29,15 +30,22 @@ class _LoginPageState extends State<LoginPage> {
 
   /// 登录
   _doLogin(Store<AppState> store) {
-    _userDao.login(_controllerForPhone.text, _controllerForPsd.text, (value) {
-      if (value.data != null) {
-        store.dispatch(UserUpdateAction(UserInfoAction.update, value));
-        ShowLoadDialog.popDialog(context);
-        Navigator.of(context).pop();
-      }
-    }, () {
-      ShowLoadDialog.popDialog(context);
-    });
+    showDialog(
+        context: context,
+        builder: (context) {
+          return ShowLoadDialog(
+            dismissDialog: _userDao.login(
+                _controllerForPhone.text, _controllerForPsd.text, (value) {
+              if (value.data != null) {
+                store.dispatch(UserUpdateAction(UserInfoAction.update, value));
+                Navigator.of(context).pop();
+                ShowLoadDialog.popDialog(context);
+              }
+            }, (resultCode) {
+              ShowLoadDialog.popDialog(context);
+            }),
+          );
+        });
   }
 
   /// 去注册页面
@@ -104,15 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                       builder: (context, Store<AppState> store) {
                         return MaterialButton(
                           minWidth: 300,
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return ShowLoadDialog(
-                                    callback: _doLogin(store),
-                                  );
-                                });
-                          },
+                          onPressed: () => _doLogin(store),
                           child: Text(
                             '登录',
                             style: TextStyle(

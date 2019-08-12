@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/bean/impl/user_info_impl_entity.dart';
+import 'package:flutter_app/common/dao/UserDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/redux/AppState.dart';
 import 'package:flutter_app/redux/action/UserUpdateAction.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
+import 'package:flutter_app/widget/ShowLoadDialog.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
@@ -20,6 +22,30 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _controllerForPhone,
       _controllerForPsd,
       _controllerForPasConfirm;
+  UserDao _userDao;
+
+  /// 注册页面
+  _register(Store<AppState> store) {
+    _userDao.login(_controllerForPhone.text, _controllerForPsd.text,
+        (result) {
+      if (result != null) {
+        store.dispatch(UserUpdateAction(UserInfoAction.update, result));
+        ShowLoadDialog.popDialog(context);
+        Navigator.of(context).pop();
+      }
+    }, () {
+      ShowLoadDialog.popDialog(context);
+    });
+  }
+
+  @override
+  void initState() {
+    _controllerForPhone=new TextEditingController();
+    _controllerForPsd=new TextEditingController();
+    _controllerForPasConfirm=new TextEditingController();
+    _userDao = new UserDao();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   _renderInputBar(
                       icon: Icons.lock_open,
                       hintText: '请输入用户密码',
-                      controller: _controllerForPhone),
+                      controller: _controllerForPsd),
                   Divider(
                     height: 4,
                   ),
@@ -76,10 +102,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       return MaterialButton(
                         minWidth: 300,
                         onPressed: () {
-                          var userInfo = new UserInfoImplEntity(
-                              data: UserInfoImplData(username: "sfdsd"));
-                          store.dispatch(UserUpdateAction(
-                              UserInfoAction.update, userInfo));
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return ShowLoadDialog(
+                                  dismissDialog: _register(store),
+                                );
+                              });
                         },
                         child: Text(
                           '注册',

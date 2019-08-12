@@ -70,7 +70,7 @@ class HttpUtils {
         //网络请求情况下的成功
         String dataStr = json.encode(response.data);
         Map<String, dynamic> dataMap = json.decode(dataStr);
-        int errCode = dataMap['errorCode'];
+        int errCode = dataMap['errorCode'] ?? -1;
         String errMsg = dataMap['errorMsg'] ?? '网络不给力';
         if (errCode == 0) {
 //          业务上的成功
@@ -78,7 +78,7 @@ class HttpUtils {
         } else {
 //          业务上的失败
           if (error != null) {
-            error(errCode ?? -1);
+            error(errCode);
           }
           ToastUtils.showTs(errMsg);
         }
