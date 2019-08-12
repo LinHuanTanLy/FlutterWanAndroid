@@ -9,9 +9,10 @@ import 'BaseDao.dart';
 /// 用户信息
 class UserDao extends BaseDao {
   /// 登录方法
-  login(String userName, String passWord, Function success) {
+  login(String userName, String passWord, Function success, Function error) {
     if (userName.isEmpty || passWord.isEmpty) {
       ToastUtils.showTs('账号密码不能为空');
+      error();
       return;
     }
     var params = {'username': userName, 'password': passWord};
@@ -19,6 +20,6 @@ class UserDao extends BaseDao {
       UserInfoImplEntity _userInfo = UserInfoImplEntity.fromJson(result);
       SpUtils.saveString("sp_user_info", json.encode(_userInfo));
       success(_userInfo);
-    });
+    }, error: error);
   }
 }

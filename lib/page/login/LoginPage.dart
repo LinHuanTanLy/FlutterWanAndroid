@@ -5,6 +5,7 @@ import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/redux/AppState.dart';
 import 'package:flutter_app/redux/action/UserUpdateAction.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
+import 'package:flutter_app/widget/ShowLoadDialog.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
@@ -25,6 +26,26 @@ class _LoginPageState extends State<LoginPage> {
   bool _ifShowPsd = true;
 
   UserDao _userDao;
+
+  /// 登录
+  _doLogin(Store<AppState> store) {
+    _userDao.login(_controllerForPhone.text, _controllerForPsd.text, (value) {
+      if (value.data != null) {
+        store.dispatch(UserUpdateAction(UserInfoAction.update, value));
+        ShowLoadDialog.popDialog(context);
+        Navigator.of(context).pop();
+      }
+    }, () {
+      ShowLoadDialog.popDialog(context);
+    });
+  }
+
+  /// 去注册页面
+  _toRegisterPage(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return RegisterPage();
+    }));
+  }
 
   @override
   void initState() {
@@ -84,13 +105,13 @@ class _LoginPageState extends State<LoginPage> {
                         return MaterialButton(
                           minWidth: 300,
                           onPressed: () {
-                            _userDao.login(_controllerForPhone.text,
-                                _controllerForPsd.text, (value) {
-                              if (value.data != null) {
-                                store.dispatch(UserUpdateAction(
-                                    UserInfoAction.update, value));
-                              }
-                            });
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return ShowLoadDialog(
+                                    callback: _doLogin(store),
+                                  );
+                                });
                           },
                           child: Text(
                             '登录',
@@ -116,10 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                               fontSize: 13, color: ColorConf.color929292),
                         ),
                         onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return RegisterPage();
-                          }));
+                          _toRegisterPage(context);
                         },
                       ),
                     ),

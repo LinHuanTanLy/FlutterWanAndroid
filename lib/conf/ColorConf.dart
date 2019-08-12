@@ -8,5 +8,8 @@ class ColorConf {
   static Color color000000 = Color(0xff000000);
   static Color colorF0F0F0 = Color(0xffF0F0F0);
   static Color color48586D = Color(0xff48586D);
+  static final Color colorTrans = Color(0X33000000);
+  static Color colorCCFFFFFF = Color(0XCCFFFFFF);
+
   static Color colorGreen = Colors.green;
 }
