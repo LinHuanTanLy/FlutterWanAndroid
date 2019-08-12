@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/common/bean/impl/user_info_impl_entity.dart';
+import 'package:flutter_app/common/dao/UserDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
+import 'package:flutter_app/redux/AppState.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 import 'LoginTopPart.dart';
 import 'RegisterPage.dart';
@@ -18,10 +22,13 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _ifShowPsd = true;
 
+  UserDao _userDao;
+
   @override
   void initState() {
     _controllerForPhone = new TextEditingController();
     _controllerForPsd = new TextEditingController();
+    _userDao = new UserDao();
     super.initState();
   }
 
@@ -37,7 +44,8 @@ class _LoginPageState extends State<LoginPage> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              LoginTopPart(height:_topHeight,title:'LOG IN',desc:'不积跬步无以至千里'),
+              LoginTopPart(
+                  height: _topHeight, title: 'LOG IN', desc: '不积跬步无以至千里'),
               Container(
                 height: _centerHeight,
                 padding: const EdgeInsets.only(left: 30, right: 30, top: 10),
@@ -70,7 +78,11 @@ class _LoginPageState extends State<LoginPage> {
                   children: <Widget>[
                     MaterialButton(
                       minWidth: 300,
-                      onPressed: () {},
+                      onPressed: () {
+                        _userDao.login().then((value){
+                          debugPrint('the user Info is ${value.data.nickname}');
+                        });
+                      },
                       child: Text(
                         '登录',
                         style: TextStyle(
@@ -84,20 +96,26 @@ class _LoginPageState extends State<LoginPage> {
                           side: BorderSide.none,
                           borderRadius: BorderRadius.circular(50)),
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 10, top: 4),
-                      child: GestureDetector(
-                        child: Text(
-                          '还没有账号？点这里注册',
-                          style: TextStyle(
-                              fontSize: 13, color: ColorConf.color929292),
-                        ),
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context){
-                              return RegisterPage();
-                          }));
-                        },
-                      ),
+                    StoreConnector<AppState, UserInfoImplEntity>(
+                      converter: (store) => store.state.userInfo,
+                      builder: (context, userInfo) {
+                        return Container(
+                          margin: const EdgeInsets.only(right: 10, top: 4),
+                          child: GestureDetector(
+                            child: Text(
+                              '还没有账号？点这里注册 ${userInfo.data}',
+                              style: TextStyle(
+                                  fontSize: 13, color: ColorConf.color929292),
+                            ),
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return RegisterPage();
+                              }));
+                            },
+                          ),
+                        );
+                      },
                     )
                   ],
                 ),

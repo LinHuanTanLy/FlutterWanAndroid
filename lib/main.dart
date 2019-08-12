@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/page/MinePage.dart';
 import 'package:flutter_app/page/SystemPage.dart';
+import 'package:flutter_app/redux/AppState.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 
 import 'page/IndexPage.dart';
 
@@ -13,19 +16,28 @@ void main() {
         SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
-  runApp(MyApp());
+
+  final store =
+      Store<AppState>(reducer, initialState: AppState.initState());
+  runApp(MyApp(store: store));
 }
 
 class MyApp extends StatelessWidget {
+  final Store<AppState> store;
+
+  const MyApp({Key key, this.store}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(),
-    );
+    return StoreProvider<AppState>(
+        store: store,
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: MyHomePage(),
+        ));
   }
 }
 
@@ -67,11 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   /// 初始化菜单栏
   _initContainer() {
-    _listContent=new IndexedStack(children: <Widget>[
-      IndexPage(),
-      SystemPage(),
-      MinePage()
-    ],index: _currIndex,);
+    _listContent = new IndexedStack(
+      children: <Widget>[IndexPage(), SystemPage(), MinePage()],
+      index: _currIndex,
+    );
 //    _listContent.add(IndexPage());
 //    _listContent.add(SystemPage());
 //    _listContent.add(MinePage());

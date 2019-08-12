@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 
 import 'ResultData.dart';
 
+/// 网络请求工具类
 class HttpUtils {
   static const CONTENT_TYPE_JSON = "application/json";
   static const CONTENT_TYPE_FORM = "application/x-www-form-urlencoded";
@@ -27,8 +28,16 @@ class HttpUtils {
     _dio = new Dio(options);
   }
 
+  get(url) {
+    return netFetch(url);
+  }
+
+  post(url, Map<String, dynamic> params) {
+    FormData formData = FormData.from(params);
+    return netFetch(url, params: formData,options: Options(method: 'post'));
+  }
+
   netFetch(url, {params, Map<String, dynamic> header, Options options}) async {
-    print('the url is $url');
     Map<String, dynamic> headers = new HashMap();
     if (header != null) {
       headers.addAll(header);
@@ -38,20 +47,6 @@ class HttpUtils {
     } else {
       options = new Options(method: 'get');
       options.headers = headers;
-    }
-
-    resultError(DioError e) {
-      Response errResponse;
-      if (e.response != null) {
-        errResponse = e.response;
-      } else {
-        errResponse = new Response(statusCode: 500);
-      }
-      if (e.type == DioErrorType.CONNECT_TIMEOUT ||
-          e.type == DioErrorType.RECEIVE_TIMEOUT) {
-        errResponse.statusCode = 400;
-      }
-      return new ResultData(null, false, errResponse.statusCode);
     }
 
     Response response;
@@ -64,5 +59,19 @@ class HttpUtils {
       return resultError(response.data);
     }
     return response.data;
+  }
+
+  resultError(DioError e) {
+    Response errResponse;
+    if (e.response != null) {
+      errResponse = e.response;
+    } else {
+      errResponse = new Response(statusCode: 500);
+    }
+    if (e.type == DioErrorType.CONNECT_TIMEOUT ||
+        e.type == DioErrorType.RECEIVE_TIMEOUT) {
+      errResponse.statusCode = 400;
+    }
+    return new ResultData(null, false, errResponse.statusCode);
   }
 }

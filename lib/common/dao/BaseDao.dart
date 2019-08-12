@@ -3,7 +3,7 @@ import 'package:flutter_app/utils/http/HttpUtils.dart';
 abstract class BaseDao {
   HttpUtils httpUtils;
 
-  getHttpUtils() {
+  HttpUtils getHttpUtils() {
     if (httpUtils == null) {
       httpUtils = new HttpUtils();
     }
