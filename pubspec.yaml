@@ -110,6 +110,8 @@ flutter:
     - images/author_pic16.jpg
     - images/author_pic17.jpg
     - images/author_pic18.jpg
+    - images/icon_eye_close.png
+    - images/icon_eye_open.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
