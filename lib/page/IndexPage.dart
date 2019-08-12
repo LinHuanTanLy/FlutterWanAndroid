@@ -30,18 +30,18 @@ class _IndexPageState extends State<IndexPage>
     _articleDao = new ArticleDao();
     _projectDao = new ProjectDao();
 
-    _articleDao.getBanner().then((value) {
+    _articleDao.getBanner((result) {
       setState(() {
-        _bannerBeanImplEntity = value;
+        _bannerBeanImplEntity = result;
       });
     });
-    _articleDao.getArticleTop().then((value) {
+    _articleDao.getArticleTop((value){
       setState(() {
         debugPrint('the value is ${value.data.datas.length}');
         _articleTopImplEntity = value;
       });
     });
-    _projectDao.getProjectTree().then((value) {
+    _projectDao.getProjectTree((value){
       setState(() {
         debugPrint('the value is $value');
         _projectTreeImplEntity = value;
@@ -258,12 +258,12 @@ class _IndexPageState extends State<IndexPage>
   AppBar _initAppBar() {
     return LyAppBar.searchAppBar(
         callBackForInput: () {
-          Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context){
-              return new LoginPage();
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (BuildContext context) {
+            return new LoginPage();
           }));
-        }, callBackForRight: () {
-
-    });
+        },
+        callBackForRight: () {});
   }
 
   @override

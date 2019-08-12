@@ -6,25 +6,17 @@ import 'BaseDao.dart';
 /// 微信公众号的dao
 class WeChatPubDao extends BaseDao {
   /// 获取公众号列表
-  Future<WeChatPubListImplEntity> getWeChatList() async {
-    var result = await getHttpUtils().netFetch('wxarticle/chapters/json');
-    if (result != null) {
-      return WeChatPubListImplEntity.fromJson(result);
-    } else {
-      return new WeChatPubListImplEntity();
-    }
+  getWeChatList(Function success) {
+    getHttpUtils().get('wxarticle/chapters/json', (value) {
+      success(WeChatPubListImplEntity.fromJson(value));
+    });
   }
 
   /// 获取公众号里面的文章列表
-  Future<WeChatPubChildListImplEntity> getWeChatChildList(
-      int pageIndex, int pubId) async {
-    var result =
-        await getHttpUtils().netFetch('wxarticle/list/$pubId/$pageIndex/json');
-    if (result != null) {
-      return WeChatPubChildListImplEntity.fromJson(result);
-    } else {
-      return new WeChatPubChildListImplEntity();
-    }
+  getWeChatChildList(int pageIndex, int pubId, Function success) {
+    getHttpUtils().get('wxarticle/list/$pubId/$pageIndex/json', (result) {
+      success(WeChatPubChildListImplEntity.fromJson(result));
+    });
   }
 
   /// 获取本地头像

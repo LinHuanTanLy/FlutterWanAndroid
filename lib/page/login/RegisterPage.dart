@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/common/bean/impl/user_info_impl_entity.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/redux/AppState.dart';
-import 'package:flutter_app/redux/action/AppAction.dart';
 import 'package:flutter_app/redux/action/UserUpdateAction.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
 import 'package:flutter_redux/flutter_redux.dart';

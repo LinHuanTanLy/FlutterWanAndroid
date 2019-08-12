@@ -1,4 +1,6 @@
-class UserInfoImplEntity {
+import '../BaseBean.dart';
+
+class UserInfoImplEntity extends BaseBean{
 	UserInfoImplData data;
 	int errorCode;
 	String errorMsg;

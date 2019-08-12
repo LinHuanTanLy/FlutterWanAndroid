@@ -6,33 +6,24 @@ import 'BaseDao.dart';
 
 class SystemDao extends BaseDao {
   /// 获取体系列表
-  Future<SystemTreeImplEntity> getSystemTree() async {
-    var result = await getHttpUtils().netFetch('tree/json');
-    if (result != null) {
-      return SystemTreeImplEntity.fromJson(result);
-    } else {
-      return new SystemTreeImplEntity();
-    }
+  getSystemTree(Function success) {
+    getHttpUtils().get('tree/json', (result) {
+      success(SystemTreeImplEntity.fromJson(result));
+    });
   }
 
   /// 获取体系下的文章列表
-  Future<ArticleListImplEntity> getArticleTop({int page, String cid}) async {
-    var result = await getHttpUtils()
-        .netFetch('article/list/${page ?? 0}/json?cid=$cid');
-    if (result != null) {
-      return ArticleListImplEntity.fromJson(result);
-    } else {
-      return new ArticleListImplEntity();
-    }
+   getArticleTop(Function success,{int page, String cid}) async {
+   getHttpUtils()
+        .get('article/list/${page ?? 0}/json?cid=$cid',(result){
+          success(ArticleListImplEntity.fromJson(result));
+    });
   }
 
   /// 获取推荐博客列表
-  Future<BlogListImplEntity> getBlogList() async {
-    var result = await getHttpUtils().netFetch('friend/json');
-    if (result != null) {
-      return BlogListImplEntity.fromJson(result);
-    } else {
-      return new BlogListImplEntity();
-    }
+   getBlogList(Function success)  {
+     getHttpUtils().get('friend/json',(result){
+      success(BlogListImplEntity.fromJson(result));
+    });
   }
 }

@@ -9,6 +9,7 @@ import 'package:flutter_app/page/system/SystemArticlePage.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
 
 import 'article/ArticleDetailPage.dart';
+
 ///  体系页面
 class SystemPage extends StatefulWidget {
   @override
@@ -52,20 +53,21 @@ class _SystemPageState extends State<SystemPage>
     Color(0XFFFF4500),
     Color(0XFFCD5C5C),
     Color(0XFFFF6347),
-
   ];
 
   @override
   void initState() {
     _dao = new SystemDao();
-    _dao.getSystemTree().then((value) {
+    _dao.getSystemTree((value) {
       setState(() {
         _listForSystemList.addAll(value.data);
       });
     });
 
-    _dao.getBlogList().then((value) {
-      _listForBlog.addAll(value.data);
+    _dao.getBlogList((value) {
+      setState(() {
+        _listForBlog.addAll(value.data);
+      });
     });
     super.initState();
   }

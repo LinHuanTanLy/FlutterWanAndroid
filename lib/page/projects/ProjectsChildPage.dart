@@ -43,17 +43,15 @@ class _ProjectsChildPageState extends State<ProjectsChildPage>
   }
 
   _loadList() {
-    _projectDao.getProjectList(projectId, _pageIndex).then((value) {
-      if (value.data != null && value.data.datas != null) {
-        setState(() {
-          if (_pageIndex == 0) {
-            _list.clear();
-            _list.addAll(value.data.datas);
-          } else {
-            _list.addAll(value.data.datas);
-          }
-        });
-      }
+    _projectDao.getProjectList(projectId, _pageIndex, (value) {
+      setState(() {
+        if (_pageIndex == 0) {
+          _list.clear();
+          _list.addAll(value.data.datas);
+        } else {
+          _list.addAll(value.data.datas);
+        }
+      });
     });
   }
 

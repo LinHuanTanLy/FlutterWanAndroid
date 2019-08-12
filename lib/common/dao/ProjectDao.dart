@@ -6,24 +6,17 @@ import 'BaseDao.dart';
 /// 项目列表
 class ProjectDao extends BaseDao {
   /// 获取项目列表
-  Future<ProjectTreeImplEntity> getProjectTree() async {
-    var result = await getHttpUtils().netFetch('/project/tree/json');
-    if (result != null) {
-      return ProjectTreeImplEntity.fromJson(result);
-    } else {
-      return new ProjectTreeImplEntity();
-    }
+  getProjectTree(Function success) {
+    getHttpUtils().get('/project/tree/json', (value) {
+      success(ProjectTreeImplEntity.fromJson(value));
+    });
   }
 
   /// 获取某个项目id下的列表数据
-  Future<ProjectListChildImplEntity> getProjectList(
-      String projectId, int pageIndex) async {
-    var result = await getHttpUtils()
-        .netFetch('/project/list/$pageIndex/json?cid=$projectId');
-    if (result != null) {
-      return ProjectListChildImplEntity.fromJson(result);
-    } else {
-      return new ProjectListChildImplEntity();
-    }
+  getProjectList(String projectId, int pageIndex, Function success) {
+    getHttpUtils().get('/project/list/$pageIndex/json?cid=$projectId',
+        (result) {
+      success(ProjectListChildImplEntity.fromJson(result));
+    });
   }
 }

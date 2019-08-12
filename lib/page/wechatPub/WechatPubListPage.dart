@@ -29,11 +29,11 @@ class _WeChatPubListPageState extends State<WeChatPubListPage>
   @override
   void initState() {
     _weChatPubDao = new WeChatPubDao();
-    _weChatPubDao.getWeChatList().then((value) {
+    _weChatPubDao.getWeChatList((value){
       setState(() {
         _listForWeChatList.addAll(value.data);
         _tabController =
-            new TabController(length: _listForWeChatList.length, vsync: this);
+        new TabController(length: _listForWeChatList.length, vsync: this);
       });
     });
     super.initState();

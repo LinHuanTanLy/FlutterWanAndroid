@@ -5,24 +5,17 @@ import 'BaseDao.dart';
 
 class ArticleDao extends BaseDao {
   /// 获取banner
-  Future<BannerBeanImplEntity> getBanner() async {
-    var result = await getHttpUtils().netFetch('banner/json');
-    if (result != null) {
-      return BannerBeanImplEntity.fromJson(result);
-    } else {
-      return new BannerBeanImplEntity();
-    }
+  getBanner(Function success) {
+    getHttpUtils().get('banner/json', (result) {
+      success(BannerBeanImplEntity.fromJson(result));
+    });
   }
 
   /// 获取文章列表
-  Future<ArticleListImplEntity> getArticleTop({int page}) async {
-    var result =
-        await getHttpUtils().netFetch('article/list/${page ?? 0}/json');
-    if (result != null) {
-      return ArticleListImplEntity.fromJson(result);
-    } else {
-      return new ArticleListImplEntity();
-    }
+  getArticleTop(Function success, {int page}) {
+    getHttpUtils().get('article/list/${page ?? 0}/json', (value) {
+      success(ArticleListImplEntity.fromJson(value));
+    });
   }
 
   /// 获取本地的图片

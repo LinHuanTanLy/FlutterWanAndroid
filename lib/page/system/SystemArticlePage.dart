@@ -21,11 +21,11 @@ class _SystemArticlePageState extends State<SystemArticlePage> {
   final String cId;
   final String title;
   GlobalKey<EasyRefreshState> _easyRefreshKey =
-      new GlobalKey<EasyRefreshState>();
+  new GlobalKey<EasyRefreshState>();
   GlobalKey<RefreshHeaderState> _headerKey =
-      new GlobalKey<RefreshHeaderState>();
+  new GlobalKey<RefreshHeaderState>();
   GlobalKey<RefreshFooterState> _footerKey =
-      new GlobalKey<RefreshFooterState>();
+  new GlobalKey<RefreshFooterState>();
   SystemDao _systemDao;
 
   List<ArticleListImplDataData> _articleList = [];
@@ -42,7 +42,7 @@ class _SystemArticlePageState extends State<SystemArticlePage> {
   }
 
   _loadList() {
-    _systemDao.getArticleTop(page: _currPage, cid: cId).then((value) {
+    _systemDao.getArticleTop((value) {
       setState(() {
         if (_currPage == 0) {
           _articleList.clear();
@@ -51,7 +51,7 @@ class _SystemArticlePageState extends State<SystemArticlePage> {
           _articleList.addAll(value.data.datas);
         }
       });
-    });
+    }, page: _currPage, cid: cId);
   }
 
   @override
