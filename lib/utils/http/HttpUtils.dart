@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_app/utils/toast/ToastUtils.dart';
@@ -26,6 +27,7 @@ class HttpUtils {
       receiveTimeout: 3000,
     );
     _dio = new Dio(options);
+    _dio.interceptors.add(CookieManager(CookieJar()));
   }
 
   get(url, Function success, {Function error}) {
@@ -62,7 +64,6 @@ class HttpUtils {
     Response response;
     try {
       response = await _dio.request(url, data: params, options: options);
-
     } on DioError catch (e) {
       ToastUtils.showTs(e.message);
     }

@@ -32,7 +32,7 @@ dependencies:
   flutter_redux: ^0.5.3
   shared_preferences: ^0.5.3+4
   flutter_spinkit: "^3.1.0"     #加载菊花
-
+  cookie_jar: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -116,6 +116,10 @@ flutter:
     - images/author_pic18.jpg
     - images/icon_eye_close.png
     - images/icon_eye_open.png
+    - images/bg.png
+    - images/icon_favor.png
+    - images/icon_favor_select.png
+    - images/me_icon_shoucang.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
