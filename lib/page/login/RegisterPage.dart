@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/common/bean/impl/user_info_impl_entity.dart';
 import 'package:flutter_app/common/dao/UserDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/redux/AppState.dart';
@@ -22,28 +21,36 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _controllerForPhone,
       _controllerForPsd,
       _controllerForPasConfirm;
-  UserDao _userDao;
+  UserDao _userDao = new UserDao();
 
   /// 注册页面
   _register(Store<AppState> store) {
-    _userDao.login(_controllerForPhone.text, _controllerForPsd.text,
-        (result) {
-      if (result != null) {
-        store.dispatch(UserUpdateAction(UserInfoAction.update, result));
-        ShowLoadDialog.popDialog(context);
-        Navigator.of(context).pop();
-      }
-    }, () {
-      ShowLoadDialog.popDialog(context);
-    });
+    showDialog(
+        context: context,
+        builder: (context) {
+          return ShowLoadDialog(
+            dismissDialog: _userDao.register(
+                _controllerForPhone.text,
+                _controllerForPsd.text,
+                _controllerForPasConfirm.text, (result) {
+              if (result != null) {
+                store.dispatch(UserUpdateAction(UserInfoAction.update, result));
+                ShowLoadDialog.popDialog(context, voidCallback: () {
+                  Navigator.of(context).pop('finish');
+                });
+              }
+            }, (resultCode) {
+              ShowLoadDialog.popDialog(context);
+            }),
+          );
+        });
   }
 
   @override
   void initState() {
-    _controllerForPhone=new TextEditingController();
-    _controllerForPsd=new TextEditingController();
-    _controllerForPasConfirm=new TextEditingController();
-    _userDao = new UserDao();
+    _controllerForPhone = new TextEditingController(text: '15223423232715339');
+    _controllerForPsd = new TextEditingController(text: '123456');
+    _controllerForPasConfirm = new TextEditingController(text: '123456');
     super.initState();
   }
 
@@ -102,13 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       return MaterialButton(
                         minWidth: 300,
                         onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return ShowLoadDialog(
-                                  dismissDialog: _register(store),
-                                );
-                              });
+                          _register(store);
                         },
                         child: Text(
                           '注册',

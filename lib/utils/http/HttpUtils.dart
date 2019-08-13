@@ -62,6 +62,7 @@ class HttpUtils {
     Response response;
     try {
       response = await _dio.request(url, data: params, options: options);
+
     } on DioError catch (e) {
       ToastUtils.showTs(e.message);
     }
@@ -78,6 +79,8 @@ class HttpUtils {
         } else {
 //          业务上的失败
           if (error != null) {
+            debugPrint('error is $error');
+            debugPrint('errCode is $errCode');
             error(errCode);
           }
           ToastUtils.showTs(errMsg);

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/common/bean/impl/user_info_impl_entity.dart';
 import 'package:flutter_app/common/dao/UserDao.dart';
+import 'package:flutter_app/common/event/PageFinishEvent.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/redux/AppState.dart';
 import 'package:flutter_app/redux/action/UserUpdateAction.dart';
-import 'package:flutter_app/utils/toast/ToastUtils.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
 import 'package:flutter_app/widget/ShowLoadDialog.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -36,10 +35,11 @@ class _LoginPageState extends State<LoginPage> {
           return ShowLoadDialog(
             dismissDialog: _userDao.login(
                 _controllerForPhone.text, _controllerForPsd.text, (value) {
+              ShowLoadDialog.popDialog(context, voidCallback: () {
+                Navigator.of(context).pop();
+              });
               if (value.data != null) {
                 store.dispatch(UserUpdateAction(UserInfoAction.update, value));
-                Navigator.of(context).pop();
-                ShowLoadDialog.popDialog(context);
               }
             }, (resultCode) {
               ShowLoadDialog.popDialog(context);
@@ -52,13 +52,17 @@ class _LoginPageState extends State<LoginPage> {
   _toRegisterPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return RegisterPage();
-    }));
+    })).then((value) {
+      if(value=='finish'){
+        Navigator.of(context).pop();
+      }
+    });
   }
 
   @override
   void initState() {
-    _controllerForPhone = new TextEditingController();
-    _controllerForPsd = new TextEditingController();
+    _controllerForPhone = new TextEditingController(text: '15622715239');
+    _controllerForPsd = new TextEditingController(text: '123456');
     _userDao = new UserDao();
     super.initState();
   }

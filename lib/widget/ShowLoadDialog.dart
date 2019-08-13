@@ -8,9 +8,13 @@ class ShowLoadDialog extends StatefulWidget {
 
   const ShowLoadDialog({Key key, this.dismissDialog}) : super(key: key);
 
-  static popDialog(BuildContext context) {
-    new Future.delayed(
-        const Duration(milliseconds: 500), () => Navigator.of(context).pop());
+  static popDialog(BuildContext context, {voidCallback}) {
+    new Future.delayed(const Duration(milliseconds: 500), () {
+      Navigator.of(context).pop();
+      if (voidCallback != null) {
+        voidCallback();
+      }
+    });
   }
 
   @override
