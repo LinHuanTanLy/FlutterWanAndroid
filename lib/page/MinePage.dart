@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/bean/impl/user_info_impl_entity.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
+import 'package:flutter_app/page/mine//collection/CollectionPage.dart';
 import 'package:flutter_app/redux/AppState.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 /// 个人中心
 class MinePage extends StatefulWidget {
-
-
-
- final List<String> _listForTitle=['我的收藏','邀请好友','关于我'];
- final List<String> _listForIcon=['images/me_icon_shoucang.png','images/author_pic1.jpg','images/author_pic1.jpg'];
+  final List<String> _listForTitle = ['我的收藏', '邀请好友', '关于我'];
+  final List<String> _listForIcon = [
+    'images/me_icon_shoucang.png',
+    'images/me_icon_yaoqing.png',
+    'images/me_icon_zhishu.png'
+  ];
+  final List<Widget> _listForWidget = [
+    CollectionPage(),
+    CollectionPage(),
+    CollectionPage()
+  ];
   @override
   _MinePageState createState() => _MinePageState();
 }
@@ -81,9 +88,11 @@ class _MinePageState extends State<MinePage>
                       padding: const EdgeInsets.only(
                           top: 30, left: 30, bottom: 30, right: 10),
                       alignment: Alignment.topRight,
-                      child: Icon(
-                        Icons.settings,
-                        color: ColorConf.colorFFFFFF,
+                      child: Container(
+                        child: Icon(
+                          Icons.settings,
+                          color: ColorConf.colorFFFFFF,
+                        ),
                       ),
                     ))
                   ],
@@ -94,7 +103,13 @@ class _MinePageState extends State<MinePage>
                     primary: false,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      return _renderListViewItem(widget._listForIcon[index],widget._listForTitle[index],(){});
+                      return _renderListViewItem(widget._listForIcon[index],
+                          widget._listForTitle[index], () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return widget._listForWidget[index];
+                        }));
+                      });
                     },
                     separatorBuilder: (BuildContext context, index) {
                       return Divider(

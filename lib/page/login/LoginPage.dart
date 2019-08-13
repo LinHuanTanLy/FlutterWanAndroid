@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/dao/UserDao.dart';
-import 'package:flutter_app/common/event/PageFinishEvent.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/redux/AppState.dart';
 import 'package:flutter_app/redux/action/UserUpdateAction.dart';

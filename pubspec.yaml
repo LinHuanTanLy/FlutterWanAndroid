@@ -120,6 +120,8 @@ flutter:
     - images/icon_favor.png
     - images/icon_favor_select.png
     - images/me_icon_shoucang.png
+    - images/me_icon_yaoqing.png
+    - images/me_icon_zhishu.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

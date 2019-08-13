@@ -35,7 +35,10 @@ class HttpUtils {
   }
 
   post(url, Map<String, dynamic> params, Function success, {Function error}) {
-    FormData formData = FormData.from(params);
+    FormData formData = new FormData();
+    if (params != null) {
+      formData = FormData.from(params);
+    }
     return netFetch(url,
         params: formData,
         options: Options(method: 'post'),
@@ -70,6 +73,7 @@ class HttpUtils {
     if (response != null) {
       if (response.statusCode == 200) {
         //网络请求情况下的成功
+        debugPrint('data is ${response.data}');
         String dataStr = json.encode(response.data);
         Map<String, dynamic> dataMap = json.decode(dataStr);
         int errCode = dataMap['errorCode'] ?? -1;

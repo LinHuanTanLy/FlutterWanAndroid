@@ -26,9 +26,7 @@ class _ShowLoadDialogState extends State<ShowLoadDialog> {
 
   _ShowLoadDialogState(this.dismissDialog);
 
-  _dismissDialog() {
-    Navigator.of(context).pop();
-  }
+
 
   @override
   void initState() {
