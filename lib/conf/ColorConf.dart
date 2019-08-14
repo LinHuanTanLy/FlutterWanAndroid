@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_web/material.dart';
 
 class ColorConf {
   static Color colorF2F2F2 = Color(0XFFF2F2F2);

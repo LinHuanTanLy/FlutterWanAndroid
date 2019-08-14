@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:flutter_web/material.dart';
 import 'package:flutter_app/common/bean/impl/blog_list_impl_entity.dart';
 import 'package:flutter_app/common/bean/impl/system_tree_impl_entity.dart';
 import 'package:flutter_app/common/dao/SystemDao.dart';

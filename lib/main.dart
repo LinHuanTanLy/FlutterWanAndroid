@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_web/material.dart';
+import 'package:flutter_web/services.dart';
 import 'package:flutter_app/page/MinePage.dart';
 import 'package:flutter_app/page/SystemPage.dart';
 import 'package:flutter_app/redux/AppState.dart';

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_web/material.dart';
 import 'package:flutter_app/common/bean/impl/my_collection_article_impl_entity.dart';
 import 'package:flutter_app/common/dao/CollectionDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
