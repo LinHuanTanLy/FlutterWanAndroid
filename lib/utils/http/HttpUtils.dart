@@ -64,6 +64,26 @@ class HttpUtils {
       options.headers = headers;
     }
 
+
+    _dealWith(var dataMap){
+      int errCode = dataMap['errorCode'] ?? -1;
+      String errMsg = dataMap['errorMsg'] ?? '网络不给力';
+      if (errCode == 0) {
+//          业务上的成功
+        success(dataMap);
+      } else {
+//          业务上的失败
+        if (error != null) {
+          debugPrint('error is $error');
+          debugPrint('errCode is $errCode');
+          error(errCode);
+        }
+        ToastUtils.showTs(errMsg);
+      }
+    }
+
+
+
     Response response;
     try {
       response = await _dio.request(url, data: params, options: options);
@@ -75,20 +95,24 @@ class HttpUtils {
         //网络请求情况下的成功
         debugPrint('data is ${response.data}');
         String dataStr = json.encode(response.data);
-        Map<String, dynamic> dataMap = json.decode(dataStr);
-        int errCode = dataMap['errorCode'] ?? -1;
-        String errMsg = dataMap['errorMsg'] ?? '网络不给力';
-        if (errCode == 0) {
-//          业务上的成功
-          success(dataMap);
-        } else {
-//          业务上的失败
-          if (error != null) {
-            debugPrint('error is $error');
-            debugPrint('errCode is $errCode');
-            error(errCode);
+        debugPrint('dataStr is $dataStr');
+        var dataMap = json.decode(dataStr);
+        debugPrint('is String = ${dataMap is String}');
+        debugPrint('is Map = ${dataMap is Map}');
+        debugPrint('dataMap is $dataMap');
+        if(dataMap is Map<String,dynamic>){
+          _dealWith(dataMap);
+        }else{
+          var myResult=json.decode(dataMap);
+          debugPrint('myResult is String = ${myResult is String}');
+          debugPrint('myResult is Map = ${myResult is Map}');
+          debugPrint('myResult is $myResult');
+          ToastUtils.showTs('网络不给力');
+          if(myResult is Map){
+            _dealWith(dataMap);
+          }else{
+            ToastUtils.showTs('网络不给力');
           }
-          ToastUtils.showTs(errMsg);
         }
       } else {
         // 网络请求情况下的失败
@@ -99,4 +123,6 @@ class HttpUtils {
       ToastUtils.showTs('网络不给力');
     }
   }
+
+
 }

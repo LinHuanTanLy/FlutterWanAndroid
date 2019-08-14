@@ -4,6 +4,7 @@ import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/utils/toast/ToastUtils.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
+/// 文章详情页
 class ArticleDetailPage extends StatefulWidget {
   final String _title;
   final String _url;

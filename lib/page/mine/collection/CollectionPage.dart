@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/common/dao/CollectionDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
+
+import 'CollectionInnerPage.dart';
 
 /// 收藏页面
 class CollectionPage extends StatefulWidget {
@@ -9,17 +12,27 @@ class CollectionPage extends StatefulWidget {
 }
 
 class _CollectionPageState extends State<CollectionPage> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: LyAppBar.commAppBar('我的收藏'),
       body: Column(
         children: <Widget>[
-          _renderCollectItem('文章列表'),
+          _renderCollectItem('文章列表', () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return CollectionInnerPage();
+            }));
+          }),
           Divider(
             height: 8,
           ),
-          _renderCollectItem('网站列表'),
+          _renderCollectItem('网站列表', () {}),
           Divider(
             height: 8,
           ),
@@ -29,7 +42,7 @@ class _CollectionPageState extends State<CollectionPage> {
   }
 
   /// 渲染item子页面
-  Widget _renderCollectItem(title) {
+  Widget _renderCollectItem(title, callBack) {
     return InkWell(
       child: Container(
         padding:
@@ -50,7 +63,7 @@ class _CollectionPageState extends State<CollectionPage> {
           ],
         ),
       ),
-      onTap: () {},
+      onTap: callBack,
     );
   }
 }
