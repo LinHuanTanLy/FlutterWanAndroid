@@ -14,7 +14,6 @@ import 'page/IndexPage.dart';
 import 'redux/action/UserUpdateAction.dart';
 import 'utils/cache/CacheKey.dart';
 import 'utils/cache/SpUtils.dart';
-import 'utils/http/HttpUtils.dart';
 
 void main() {
   if (Platform.isAndroid) {
@@ -24,11 +23,7 @@ void main() {
   }
 
   final store = Store<AppState>(reducer, initialState: AppState.initState());
-  SpUtils.getSpString(CacheKey.cacheCookie).then((value) {
-    if (value != null && value.isNotEmpty) {
-      HttpUtils().cookie = value;
-    }
-  });
+
   SpUtils.getSpString(CacheKey.cacheUserInfo).then((value) {
     if (value != null) {
       UserInfoImplEntity _userInfo =

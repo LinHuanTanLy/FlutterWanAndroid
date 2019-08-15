@@ -26,12 +26,34 @@ class HttpUtils {
 
   set cookie(String value) {
     _cookie = value;
-    _initOptions(cookie: value);
+
   }
 
   HttpUtils() {
-    _dio = new Dio(_initOptions());
-    _dio.interceptors.add(CookieManager(CookieJar()));
+    _initCookie();
+    if (_dio == null) {
+      BaseOptions options = new BaseOptions(
+        baseUrl: "https://www.wanandroid.com/",
+        connectTimeout: 5000,
+        receiveTimeout: 3000,
+      );
+      _dio = new Dio(options);
+      _dio.interceptors.add(CookieManager(CookieJar()));
+    }
+    _dio.interceptors
+        .add(new InterceptorsWrapper(onRequest: (RequestOptions options) {
+      Map<String, dynamic> headers = new Map();
+      debugPrint('the cookie String is $_cookie');
+      if (_cookie != null && _cookie.isNotEmpty) {
+        headers['Cookie'] = _cookie;
+      }
+      options.headers = headers;
+      return options;
+    }));
+  }
+
+  _initCookie() async {
+    _cookie = await SpUtils.getSpString(CacheKey.cacheCookie);
   }
 
   get(url, Function success, {Function error}) {
@@ -48,24 +70,6 @@ class HttpUtils {
         options: Options(method: 'post'),
         error: error,
         success: success);
-  }
-
-  BaseOptions _initOptions({String cookie}) {
-    Map<String, dynamic> headers = new Map();
-    if (cookie != null && cookie.isNotEmpty) {
-      headers['Cookie'] = cookie;
-    }
-    BaseOptions options = new BaseOptions(
-      baseUrl: "https://www.wanandroid.com/",
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-      headers: headers,
-    );
-    return options;
-  }
-
-  setCookie(String cookie) {
-    _dio.options = _initOptions(cookie: cookie);
   }
 
   /// 网络请求基类

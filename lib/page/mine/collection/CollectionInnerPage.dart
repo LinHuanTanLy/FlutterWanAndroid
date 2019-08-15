@@ -28,6 +28,10 @@ class _CollectionInnerPageState extends State<CollectionInnerPage> {
   @override
   void initState() {
     super.initState();
+    _loadList();
+  }
+
+  _loadList() {
     _collectionDao.getCollectionArticle(0, success: (result) {
       if (_currPageIndex == 0) _list.clear();
       setState(() {
@@ -54,10 +58,16 @@ class _CollectionInnerPageState extends State<CollectionInnerPage> {
             showMore: true,
           ),
           onRefresh: () async {
-            await new Future.delayed(const Duration(seconds: 1), () {});
+            await new Future.delayed(const Duration(seconds: 1), () {
+              _currPageIndex = 0;
+              _loadList();
+            });
           },
           loadMore: () async {
-            await new Future.delayed(const Duration(seconds: 1), () {});
+            await new Future.delayed(const Duration(seconds: 1), () {
+              _currPageIndex++;
+              _loadList();
+            });
           },
           child: ListView.builder(
               itemBuilder: (context, index) {
