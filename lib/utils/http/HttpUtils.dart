@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_app/utils/cache/CacheKey.dart';
+import 'package:flutter_app/utils/cache/SpUtils.dart';
 import 'package:flutter_app/utils/toast/ToastUtils.dart';
 
 /// 网络请求工具类
@@ -13,6 +15,8 @@ class HttpUtils {
   Dio _dio; // 使用默认配置
   static HttpUtils _instance;
 
+  String _cookie;
+
   static HttpUtils getInstance() {
     if (_instance == null) {
       _instance = new HttpUtils();
@@ -20,13 +24,13 @@ class HttpUtils {
     return _instance;
   }
 
+  set cookie(String value) {
+    _cookie = value;
+    _initOptions(cookie: value);
+  }
+
   HttpUtils() {
-    BaseOptions options = new BaseOptions(
-      baseUrl: "https://www.wanandroid.com/",
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-    );
-    _dio = new Dio(options);
+    _dio = new Dio(_initOptions());
     _dio.interceptors.add(CookieManager(CookieJar()));
   }
 
@@ -46,8 +50,26 @@ class HttpUtils {
         success: success);
   }
 
+  BaseOptions _initOptions({String cookie}) {
+    Map<String, dynamic> headers = new Map();
+    if (cookie != null && cookie.isNotEmpty) {
+      headers['Cookie'] = cookie;
+    }
+    BaseOptions options = new BaseOptions(
+      baseUrl: "https://www.wanandroid.com/",
+      connectTimeout: 5000,
+      receiveTimeout: 3000,
+      headers: headers,
+    );
+    return options;
+  }
+
+  setCookie(String cookie) {
+    _dio.options = _initOptions(cookie: cookie);
+  }
+
   /// 网络请求基类
-  netFetch(url,
+  netFetch(String url,
       {params,
       Map<String, dynamic> header,
       Options options,
@@ -64,8 +86,7 @@ class HttpUtils {
       options.headers = headers;
     }
 
-
-    _dealWith(var dataMap){
+    _dealWith(var dataMap) {
       int errCode = dataMap['errorCode'] ?? -1;
       String errMsg = dataMap['errorMsg'] ?? '网络不给力';
       if (errCode == 0) {
@@ -82,8 +103,6 @@ class HttpUtils {
       }
     }
 
-
-
     Response response;
     try {
       response = await _dio.request(url, data: params, options: options);
@@ -92,6 +111,9 @@ class HttpUtils {
     }
     if (response != null) {
       if (response.statusCode == 200) {
+        if (url.contains('login')) {
+          _cacheCookie(response);
+        }
         //网络请求情况下的成功
         debugPrint('data is ${response.data}');
         String dataStr = json.encode(response.data);
@@ -100,17 +122,17 @@ class HttpUtils {
         debugPrint('is String = ${dataMap is String}');
         debugPrint('is Map = ${dataMap is Map}');
         debugPrint('dataMap is $dataMap');
-        if(dataMap is Map<String,dynamic>){
+        if (dataMap is Map<String, dynamic>) {
           _dealWith(dataMap);
-        }else{
-          var myResult=json.decode(dataMap);
+        } else {
+          var myResult = json.decode(dataMap);
           debugPrint('myResult is String = ${myResult is String}');
           debugPrint('myResult is Map = ${myResult is Map}');
           debugPrint('myResult is $myResult');
           ToastUtils.showTs('网络不给力');
-          if(myResult is Map){
+          if (myResult is Map) {
             _dealWith(dataMap);
-          }else{
+          } else {
             ToastUtils.showTs('网络不给力');
           }
         }
@@ -124,5 +146,13 @@ class HttpUtils {
     }
   }
 
-
+  _cacheCookie(Response response) {
+    response.headers.forEach((String name, List<String> values) {
+      if (name == "set-cookie") {
+        String cookie = values.toString();
+        SpUtils.saveString(CacheKey.cacheCookie, cookie);
+        //CacheUtil().setLogin(true);
+      }
+    });
+  }
 }

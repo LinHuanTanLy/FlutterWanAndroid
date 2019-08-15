@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_app/common/bean/impl/user_info_impl_entity.dart';
+import 'package:flutter_app/utils/cache/CacheKey.dart';
 import 'package:flutter_app/utils/cache/SpUtils.dart';
 import 'package:flutter_app/utils/toast/ToastUtils.dart';
 
@@ -18,7 +19,7 @@ class UserDao extends BaseDao {
     var params = {'username': userName, 'password': passWord};
     getHttpUtils().post('user/login', params, (result) {
       UserInfoImplEntity _userInfo = UserInfoImplEntity.fromJson(result);
-      SpUtils.saveString("sp_user_info", json.encode(_userInfo));
+      SpUtils.saveString(CacheKey.cacheUserInfo, json.encode(_userInfo));
       success(_userInfo);
     }, error: error);
   }
@@ -43,7 +44,7 @@ class UserDao extends BaseDao {
     };
     getHttpUtils().post("user/register", params, (result) {
       UserInfoImplEntity _userInfo = UserInfoImplEntity.fromJson(result);
-      SpUtils.saveString("sp_user_info", json.encode(_userInfo));
+      SpUtils.saveString(CacheKey.cacheUserInfo, json.encode(_userInfo));
       success(_userInfo);
     }, error: error);
   }
