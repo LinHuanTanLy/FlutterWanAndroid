@@ -155,7 +155,7 @@ class _SystemPageState extends State<SystemPage>
         itemCount: _currIndex == 0
             ? _listForBlog.length
             : _listForSystemList.isNotEmpty
-                ? _listForSystemList[_currIndex-1].children.length
+                ? _listForSystemList[_currIndex - 1].children.length
                 : 0,
         padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -176,7 +176,7 @@ class _SystemPageState extends State<SystemPage>
                 child: Text(
                   _currIndex == 0
                       ? _listForBlog[index].name
-                      : _listForSystemList[_currIndex-1].children[index].name,
+                      : _listForSystemList[_currIndex - 1].children[index].name,
                   style: TextStyle(
                     fontSize: 14,
                     color: ColorConf.colorFFFFFF,
@@ -191,17 +191,16 @@ class _SystemPageState extends State<SystemPage>
                   new MaterialPageRoute(builder: (BuildContext context) {
                 if (_currIndex != 0) {
                   return new SystemArticlePage(
-                    cId: _listForSystemList[_currIndex-1]
+                    cId: _listForSystemList[_currIndex - 1]
                         .children[index]
                         .id
                         .toString(),
-                    title: _listForSystemList[_currIndex-1].children[index].name,
+                    title:
+                        _listForSystemList[_currIndex - 1].children[index].name,
                   );
                 } else {
-                  return new ArticleDetailPage(
-                    _listForBlog[index].name,
-                    _listForBlog[index].link,
-                  );
+                  return new ArticleDetailPage(_listForBlog[index].name,
+                      _listForBlog[index].link, _listForBlog[index].id, false);
                 }
               }));
             },

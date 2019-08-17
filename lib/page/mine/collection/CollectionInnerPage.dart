@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/bean/impl/my_collection_article_impl_entity.dart';
 import 'package:flutter_app/common/dao/CollectionDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
+import 'package:flutter_app/page/article/ArticleDetailPage.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
 import 'package:flutter_app/widget/ProjectWidget.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -32,12 +34,19 @@ class _CollectionInnerPageState extends State<CollectionInnerPage> {
   }
 
   _loadList() {
-    _collectionDao.getCollectionArticle(0, success: (result) {
+    _collectionDao.getCollectionArticle(_currPageIndex, success: (result) {
       if (_currPageIndex == 0) _list.clear();
+
+      debugPrint('the length is ${_list.length}');
+      debugPrint('the length of request  is ${result.length}');
       setState(() {
         _list.addAll(result);
       });
-    }, error: () {}, empty: () {});
+    }, error: () {
+      debugPrint('error');
+    }, empty: () {
+      debugPrint('empty');
+    });
   }
 
   @override
@@ -71,10 +80,47 @@ class _CollectionInnerPageState extends State<CollectionInnerPage> {
           },
           child: ListView.builder(
               itemBuilder: (context, index) {
+                var item = _list[index];
+                debugPrint('the key is ${index.toString()}');
                 return Dismissible(
-                  key: Key(index.toString()),
-                  onDismissed: (id) {
-                    _deleteItem(id, index);
+                  key: Key(UniqueKey().toString()),
+                  confirmDismiss: (DismissDirection direction) async {
+                    final bool res = await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CupertinoAlertDialog(
+                            title: Text(
+                              "注意",
+                              style: TextStyle(
+                                  fontSize: 16, color: ColorConf.color000000),
+                            ),
+                            content: const Text("您是否要取消收藏这个文章呢？"),
+                            actions: <Widget>[
+                              FlatButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(true);
+                                    _deleteItem(item.id, item.originId, index);
+                                  },
+                                  child: Text(
+                                    "是的",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: ColorConf.colorGreen),
+                                  )),
+                              FlatButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(false),
+                                child: Text(
+                                  "我不",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: ColorConf.color48586D),
+                                ),
+                              )
+                            ],
+                          );
+                        });
+                    return res;
                   },
                   background: Container(
                     padding: const EdgeInsets.only(right: 30),
@@ -89,8 +135,17 @@ class _CollectionInnerPageState extends State<CollectionInnerPage> {
                   child: Container(
                       child: Column(
                     children: <Widget>[
-                      ProjectWidget.renderListViewCollectionItem(
-                          _list[index], () {}),
+                      InkWell(
+                        child: ProjectWidget.renderListViewCollectionItem(item,
+                            () {
+                          Navigator.push(context, new MaterialPageRoute(
+                              builder: (BuildContext context) {
+                            return ArticleDetailPage(
+                                item.title, item.link, item.id, true);
+                          }));
+                        }),
+                        onTap: () {},
+                      ),
                       Divider(),
                     ],
                   )),
@@ -101,7 +156,10 @@ class _CollectionInnerPageState extends State<CollectionInnerPage> {
   }
 
   /// 删除item
-  _deleteItem(id, index) {
-    _list.removeAt(index);
+  _deleteItem(id, originId, index) {
+    _collectionDao.cancelCollectionInMyCollectionPage(id, originId, () {
+      _list.removeAt(index);
+      debugPrint('after delete,the length of _list ${_list.length}');
+    });
   }
 }

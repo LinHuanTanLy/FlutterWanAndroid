@@ -49,7 +49,7 @@ class HttpUtils {
       }
       options.headers = headers;
       return options;
-    }));
+    }),);
   }
 
   _initCookie() async {
@@ -79,6 +79,8 @@ class HttpUtils {
       Options options,
       Function success,
       Function error}) async {
+
+    debugPrint('the url is $url');
     Map<String, dynamic> headers = new HashMap();
     if (header != null) {
       headers.addAll(header);
@@ -119,20 +121,12 @@ class HttpUtils {
           _cacheCookie(response);
         }
         //网络请求情况下的成功
-        debugPrint('data is ${response.data}');
         String dataStr = json.encode(response.data);
-        debugPrint('dataStr is $dataStr');
         var dataMap = json.decode(dataStr);
-        debugPrint('is String = ${dataMap is String}');
-        debugPrint('is Map = ${dataMap is Map}');
-        debugPrint('dataMap is $dataMap');
         if (dataMap is Map<String, dynamic>) {
           _dealWith(dataMap);
         } else {
           var myResult = json.decode(dataMap);
-          debugPrint('myResult is String = ${myResult is String}');
-          debugPrint('myResult is Map = ${myResult is Map}');
-          debugPrint('myResult is $myResult');
           ToastUtils.showTs('网络不给力');
           if (myResult is Map) {
             _dealWith(dataMap);

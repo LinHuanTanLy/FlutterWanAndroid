@@ -93,11 +93,12 @@ class _ProjectsChildPageState extends State<ProjectsChildPage>
               );
             },
             itemBuilder: (context, index) {
-              return ProjectWidget.renderListViewItem(_list[index], () {
+              var item = _list[index];
+              return ProjectWidget.renderListViewItem(item, () {
                 Navigator.push(context,
                     new MaterialPageRoute(builder: (BuildContext context) {
                   return new ArticleDetailPage(
-                      _list[index].title, _list[index].projectLink);
+                      item.title, item.projectLink, item.id, item.collect);
                 }));
               });
             },

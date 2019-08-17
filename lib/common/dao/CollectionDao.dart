@@ -5,7 +5,7 @@ import 'package:flutter_app/utils/toast/ToastUtils.dart';
 /// 收藏列表
 class CollectionDao extends BaseDao {
   /// 收藏站内文章
-  collInner(String id, success, error) {
+  collectInnerArticle(int id, success, error) {
     getHttpUtils().post('lg/collect/$id/json', null, success, error: error);
   }
 
@@ -46,6 +46,29 @@ class CollectionDao extends BaseDao {
       }
     }, error: () {
       error();
+    });
+  }
+
+  /// 在我的收藏页面  取消收藏
+  cancelCollectionInMyCollectionPage(id, originId, Function success) {
+    var params = {
+      'id': id,
+      'originId': originId ?? -1,
+    };
+    getHttpUtils().post('lg/uncollect/$id/json', params, (result) {
+      print('the result of cancelCollectionInMyCollectionPage  is $result');
+      if (result != null) {
+        success();
+      }
+    });
+  }
+
+  /// 在我的文章列表   取消收藏
+  cancelCollectionInArticleList(id, success) {
+    getHttpUtils().post('lg/uncollect_originId/$id/json', {}, (result) {
+      if (result != null) {
+      }
+      success();
     });
   }
 }

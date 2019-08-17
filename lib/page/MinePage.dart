@@ -5,6 +5,8 @@ import 'package:flutter_app/page/mine//collection/CollectionPage.dart';
 import 'package:flutter_app/redux/AppState.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import 'login/LoginPage.dart';
+
 /// 个人中心
 class MinePage extends StatefulWidget {
   final List<String> _listForTitle = ['我的收藏', '邀请好友', '关于我'];
@@ -18,6 +20,7 @@ class MinePage extends StatefulWidget {
     CollectionPage(),
     CollectionPage()
   ];
+
   @override
   _MinePageState createState() => _MinePageState();
 }
@@ -62,14 +65,24 @@ class _MinePageState extends State<MinePage>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            userInfo != null && userInfo.data != null
-                                ? userInfo.data.nickname
-                                : '暂未登录',
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: ColorConf.colorFFFFFF),
+                          InkWell(
+                            child: Text(
+                              userInfo != null && userInfo.data != null
+                                  ? userInfo.data.nickname
+                                  : '暂未登录',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorConf.colorFFFFFF),
+                            ),
+                            onTap: () {
+                              if (userInfo == null || userInfo.data == null) {
+                                Navigator.push(context, new MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                  return new LoginPage();
+                                }));
+                              }
+                            },
                           ),
                           Container(
                               margin: const EdgeInsets.only(

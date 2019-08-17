@@ -248,7 +248,7 @@ class _IndexPageState extends State<IndexPage>
         onBannerClickListener: (index, data) {
           Navigator.push(context,
               new MaterialPageRoute(builder: (BuildContext context) {
-            return new ArticleDetailPage(data.title, data.url);
+            return new ArticleDetailPage(data.title, data.url,data.id,false);
           }));
         },
       ),

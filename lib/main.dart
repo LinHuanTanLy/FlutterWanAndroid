@@ -81,9 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
         selectedFontSize: 12,
         iconSize: 16,
         onTap: (index) {
-          setState(() {
-            _currIndex = index;
-          });
+          if (index != _currIndex) {
+            setState(() {
+              _currIndex = index;
+            });
+          }
         },
       ),
     );

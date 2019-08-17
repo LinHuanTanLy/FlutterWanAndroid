@@ -142,7 +142,8 @@ class _WeChatPubChildPageState extends State<WeChatPubChildPage>
       onTap: () {
         Navigator.push(context,
             new MaterialPageRoute(builder: (BuildContext context) {
-          return new ArticleDetailPage(data.title, data.link);
+          return new ArticleDetailPage(
+              data.title, data.link, data.id, data.collect);
         }));
       },
     );
