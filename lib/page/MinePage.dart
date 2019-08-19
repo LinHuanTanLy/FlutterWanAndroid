@@ -9,6 +9,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import 'login/LoginPage.dart';
+import 'mine/about/AboutMePage.dart';
 import 'mine/invite/InvitePage.dart';
 
 /// 个人中心
@@ -22,7 +23,7 @@ class MinePage extends StatefulWidget {
   final List<Widget> _listForWidget = [
     CollectionPage(),
     InvitePage(),
-    CollectionPage()
+    AboutMePage()
   ];
 
   @override
@@ -109,18 +110,6 @@ class _MinePageState extends State<MinePage>
                         ],
                       ),
                     ),
-                    Expanded(
-                        child: Container(
-                      padding: const EdgeInsets.only(
-                          top: 30, left: 30, bottom: 30, right: 10),
-                      alignment: Alignment.topRight,
-                      child: Container(
-                        child: Icon(
-                          Icons.settings,
-                          color: ColorConf.colorFFFFFF,
-                        ),
-                      ),
-                    ))
                   ],
                 ),
               ),

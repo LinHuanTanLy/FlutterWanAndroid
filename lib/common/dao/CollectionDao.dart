@@ -1,4 +1,5 @@
 import 'package:flutter_app/common/bean/impl/my_collection_article_impl_entity.dart';
+import 'package:flutter_app/common/bean/impl/web_list_impl_entity.dart';
 import 'package:flutter_app/common/dao/BaseDao.dart';
 import 'package:flutter_app/utils/toast/ToastUtils.dart';
 
@@ -22,6 +23,48 @@ class CollectionDao extends BaseDao {
     } else {
       ToastUtils.showTs('收藏失败了哦');
     }
+  }
+
+  /// 收藏网站
+  collWebsite(String name, String link, Function success) {
+    var params = {
+      'name': name,
+      'link': link,
+    };
+    getHttpUtils().post('lg/collect/addtool/json', params, success);
+  }
+
+  /// 获取我的收藏网址列表
+  myWebSiteList(Function success) {
+    getHttpUtils().get("/lg/collect/usertools/json", (value) {
+      if (value != null) {
+        WebListImplEntity _webList = WebListImplEntity.fromJson(value);
+        success(_webList);
+      }
+    });
+  }
+
+  /// 删除我的收藏网站
+  deleteMyWebSite(int id, Function success) {
+    var params = {
+      'id': id,
+    };
+    getHttpUtils().post('lg/collect/deletetool/json', params, (value) {
+      success();
+    });
+  }
+
+  /// 编辑我收藏的网站
+  editMyWebSite(int id, String name, String link, Function success) {
+    var params = {
+      'id': id,
+      'name': name,
+      'link': link,
+    };
+    getHttpUtils().post('lg/collect/updatetool/json', params, (value) {
+      print('value is $value');
+      success();
+    });
   }
 
   /// 获取收藏文章列表
@@ -66,8 +109,7 @@ class CollectionDao extends BaseDao {
   /// 在我的文章列表   取消收藏
   cancelCollectionInArticleList(id, success) {
     getHttpUtils().post('lg/uncollect_originId/$id/json', {}, (result) {
-      if (result != null) {
-      }
+      if (result != null) {}
       success();
     });
   }

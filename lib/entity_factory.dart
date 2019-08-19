@@ -1,13 +1,15 @@
-import 'package:flutter_app/common/bean/impl/article_list_impl_entity.dart';
-import 'package:flutter_app/common/bean/impl/banner_bean_impl_entity.dart';
-import 'package:flutter_app/common/bean/impl/blog_list_impl_entity.dart';
-import 'package:flutter_app/common/bean/impl/my_collection_article_impl_entity.dart';
-import 'package:flutter_app/common/bean/impl/project_list_child_impl_entity.dart';
-import 'package:flutter_app/common/bean/impl/project_tree_impl_entity.dart';
-import 'package:flutter_app/common/bean/impl/system_tree_impl_entity.dart';
-import 'package:flutter_app/common/bean/impl/user_info_impl_entity.dart';
-import 'package:flutter_app/common/bean/impl/we_chat_pub_child_list_impl_entity.dart';
-import 'package:flutter_app/common/bean/impl/we_chat_pub_list_impl_entity.dart';
+import 'common/bean/impl//article_list_impl_entity.dart';
+import 'common/bean/impl//banner_bean_impl_entity.dart';
+import 'common/bean/impl//blog_list_impl_entity.dart';
+import 'common/bean/impl//project_list_child_impl_entity.dart';
+import 'common/bean/impl//project_tree_impl_entity.dart';
+import 'common/bean/impl//system_tree_impl_entity.dart';
+import 'common/bean/impl//user_info_impl_entity.dart';
+import 'common/bean/impl//web_list_impl_entity.dart';
+import 'common/bean/impl//we_chat_pub_child_list_impl_entity.dart';
+import 'common/bean/impl//we_chat_pub_list_impl_entity.dart';
+
+import 'common/bean/impl/my_collection_article_impl_entity.dart';
 
 class EntityFactory {
   static T generateOBJ<T>(json) {
@@ -29,6 +31,8 @@ class EntityFactory {
       return SystemTreeImplEntity.fromJson(json) as T;
     } else if (T.toString() == "UserInfoImplEntity") {
       return UserInfoImplEntity.fromJson(json) as T;
+    } else if (T.toString() == "WebListImplEntity") {
+      return WebListImplEntity.fromJson(json) as T;
     } else if (T.toString() == "WeChatPubChildListImplEntity") {
       return WeChatPubChildListImplEntity.fromJson(json) as T;
     } else if (T.toString() == "WeChatPubListImplEntity") {

@@ -3,6 +3,7 @@ import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
 
 import 'CollectionInnerPage.dart';
+import 'CollectionWebSitePage.dart';
 
 /// 收藏页面
 class CollectionPage extends StatefulWidget {
@@ -11,7 +12,6 @@ class CollectionPage extends StatefulWidget {
 }
 
 class _CollectionPageState extends State<CollectionPage> {
-
   @override
   void initState() {
     super.initState();
@@ -31,7 +31,11 @@ class _CollectionPageState extends State<CollectionPage> {
           Divider(
             height: 8,
           ),
-          _renderCollectItem('网站列表', () {}),
+          _renderCollectItem('网站列表', () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return CollectionWebSitePage();
+            }));
+          }),
           Divider(
             height: 8,
           ),

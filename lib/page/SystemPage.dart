@@ -135,7 +135,9 @@ class _SystemPageState extends State<SystemPage>
             ),
             Container(
               height: 3,
-              color: _currIndex == index ? ColorConf.colorGreen : ColorConf.colorFFFFFF,
+              color: _currIndex == index
+                  ? ColorConf.colorGreen
+                  : ColorConf.colorFFFFFF,
             )
           ],
         ),
@@ -199,8 +201,13 @@ class _SystemPageState extends State<SystemPage>
                         _listForSystemList[_currIndex - 1].children[index].name,
                   );
                 } else {
-                  return new ArticleDetailPage(_listForBlog[index].name,
-                      _listForBlog[index].link, _listForBlog[index].id, false);
+                  return new ArticleDetailPage(
+                    _listForBlog[index].name,
+                    _listForBlog[index].link,
+                    _listForBlog[index].id,
+                    false,
+                    ifExternalWebsite: true,
+                  );
                 }
               }));
             },
