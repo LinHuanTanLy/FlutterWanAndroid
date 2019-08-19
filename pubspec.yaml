@@ -122,6 +122,13 @@ flutter:
     - images/me_icon_shoucang.png
     - images/me_icon_yaoqing.png
     - images/me_icon_zhishu.png
+    - images/empty_data.png
+    - images/person_invite_bg.png
+    - images/invite_star.png
+    - images/my_qr.png
+    - images/invite_renshu_icon.png
+    - images/invite_reward_icon.png
+    - images/invite_btn_yaoqing.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

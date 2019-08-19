@@ -3,6 +3,8 @@ import 'package:flutter_app/common/bean/impl/my_collection_article_impl_entity.d
 import 'package:flutter_app/common/bean/impl/project_list_child_impl_entity.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 
+import 'LyWidget.dart';
+
 class ProjectWidget {
   /// 渲染项目item
   static Widget renderListViewItem(
@@ -117,7 +119,6 @@ class ProjectWidget {
     );
   }
 
-
   /// 渲染项目item
   static Widget renderListViewCollectionItem(
       MyCollectionArticleImplDataData projectListChildImplDataData, callBack) {
@@ -130,31 +131,31 @@ class ProjectWidget {
               children: <Widget>[
                 Expanded(
                     child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: AssetImage('images/icon_author.png'),
-                                fit: BoxFit.cover),
-                            border: Border.all(
-                                color: ColorConf.color929292, width: 0.5),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 6),
-                          child: Text(
-                            projectListChildImplDataData.author,
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: ColorConf.color000000,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-                    )),
+                  children: <Widget>[
+                    Container(
+                      width: 20,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: AssetImage('images/icon_author.png'),
+                            fit: BoxFit.cover),
+                        border: Border.all(
+                            color: ColorConf.color929292, width: 0.5),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 6),
+                      child: Text(
+                        projectListChildImplDataData.author,
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: ColorConf.color000000,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                )),
                 Text(
                   '${projectListChildImplDataData.chapterName}',
                   style: TextStyle(fontSize: 14, color: ColorConf.color929292),
@@ -202,10 +203,12 @@ class ProjectWidget {
                   Expanded(
                     child: Container(
                       margin: const EdgeInsets.only(left: 4),
-                      child: Image.network(
-                        projectListChildImplDataData.envelopePic,
-                        fit: BoxFit.cover,
-                      ),
+//                      child: Image.network(
+//                        projectListChildImplDataData.envelopePic,
+//                        fit: BoxFit.cover,
+//                      ),
+                      child: LyWidget.getImageView(
+                          projectListChildImplDataData.envelopePic),
                     ),
                     flex: 1,
                   ),
@@ -219,7 +222,7 @@ class ProjectWidget {
                   Text(
                     projectListChildImplDataData.niceDate,
                     style:
-                    TextStyle(fontSize: 13, color: ColorConf.color929292),
+                        TextStyle(fontSize: 13, color: ColorConf.color929292),
                   )
                 ],
               ),

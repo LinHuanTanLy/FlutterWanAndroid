@@ -26,7 +26,6 @@ class HttpUtils {
 
   set cookie(String value) {
     _cookie = value;
-
   }
 
   HttpUtils() {
@@ -40,16 +39,17 @@ class HttpUtils {
       _dio = new Dio(options);
       _dio.interceptors.add(CookieManager(CookieJar()));
     }
-    _dio.interceptors
-        .add(new InterceptorsWrapper(onRequest: (RequestOptions options) {
-      Map<String, dynamic> headers = new Map();
-      debugPrint('the cookie String is $_cookie');
-      if (_cookie != null && _cookie.isNotEmpty) {
-        headers['Cookie'] = _cookie;
-      }
-      options.headers = headers;
-      return options;
-    }),);
+    _dio.interceptors.add(
+      new InterceptorsWrapper(onRequest: (RequestOptions options) {
+        Map<String, dynamic> headers = new Map();
+        debugPrint('the cookie String is $_cookie');
+        if (_cookie != null && _cookie.isNotEmpty) {
+          headers['Cookie'] = _cookie;
+        }
+        options.headers = headers;
+        return options;
+      }),
+    );
   }
 
   _initCookie() async {
@@ -79,7 +79,6 @@ class HttpUtils {
       Options options,
       Function success,
       Function error}) async {
-
     debugPrint('the url is $url');
     Map<String, dynamic> headers = new HashMap();
     if (header != null) {
@@ -93,19 +92,24 @@ class HttpUtils {
     }
 
     _dealWith(var dataMap) {
-      int errCode = dataMap['errorCode'] ?? -1;
-      String errMsg = dataMap['errorMsg'] ?? '网络不给力';
-      if (errCode == 0) {
+      if (dataMap is Map) {
+        int errCode = dataMap['errorCode'] ?? -1;
+        String errMsg = dataMap['errorMsg'] ?? '网络不给力';
+        if (errCode == 0) {
 //          业务上的成功
-        success(dataMap);
-      } else {
+          success(dataMap);
+        } else {
 //          业务上的失败
-        if (error != null) {
-          debugPrint('error is $error');
-          debugPrint('errCode is $errCode');
-          error(errCode);
+          if (error != null) {
+            debugPrint('error is $error');
+            debugPrint('errCode is $errCode');
+            error(errCode);
+          }
+          ToastUtils.showTs(errMsg);
         }
-        ToastUtils.showTs(errMsg);
+      } else {
+        ToastUtils.showTs('网络不给力');
+        error();
       }
     }
 

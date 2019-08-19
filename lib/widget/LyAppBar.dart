@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 
 class LyAppBar {
-  static AppBar commAppBar(String titleStr, {Widget bottom,}) {
+  static AppBar commAppBar(String titleStr, {Widget bottom,color}) {
     return AppBar(
       elevation: 0,
-      backgroundColor: Colors.green,
+      backgroundColor: color??ColorConf.colorGreen,
       centerTitle: true,
       bottom: bottom,
       title: Text(

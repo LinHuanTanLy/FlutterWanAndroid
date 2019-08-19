@@ -51,6 +51,8 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
     _collect = widget._collect;
     _colorForCollect =
         widget._collect ? ColorConf.colorRed : ColorConf.colorFFFFFF;
+
+
   }
 
   @override
@@ -61,7 +63,7 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
       url: _url.replaceAll("http://", "https://"),
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.green,
+        backgroundColor: ColorConf.colorGreen,
         centerTitle: true,
         actions: <Widget>[
           InkWell(

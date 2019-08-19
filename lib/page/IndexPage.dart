@@ -153,7 +153,7 @@ class _IndexPageState extends State<IndexPage>
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Colors.green,
+                      color: ColorConf.colorGreen,
                     ),
                   ),
                 ),

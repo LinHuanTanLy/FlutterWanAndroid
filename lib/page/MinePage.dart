@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/bean/impl/user_info_impl_entity.dart';
+import 'package:flutter_app/common/dao/UserDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
 import 'package:flutter_app/page/mine//collection/CollectionPage.dart';
 import 'package:flutter_app/redux/AppState.dart';
+import 'package:flutter_app/redux/action/UserUpdateAction.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 
 import 'login/LoginPage.dart';
+import 'mine/invite/InvitePage.dart';
 
 /// 个人中心
 class MinePage extends StatefulWidget {
@@ -17,7 +21,7 @@ class MinePage extends StatefulWidget {
   ];
   final List<Widget> _listForWidget = [
     CollectionPage(),
-    CollectionPage(),
+    InvitePage(),
     CollectionPage()
   ];
 
@@ -25,14 +29,23 @@ class MinePage extends StatefulWidget {
   _MinePageState createState() => _MinePageState();
 }
 
+UserDao _userDao = new UserDao();
+
+_logOut(Store<AppState> store) {
+  _userDao.logOut(() {
+    store.dispatch(UserUpdateAction(UserInfoAction.update, null));
+  });
+}
+
 class _MinePageState extends State<MinePage>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context); //必须添加
-    return StoreConnector<AppState, UserInfoImplEntity>(
-      converter: (store) => store.state.userInfo,
-      builder: (context, userInfo) {
+    return StoreConnector<AppState, Store<AppState>>(
+      converter: (store) => store,
+      builder: (context, Store<AppState> store) {
+        UserInfoImplEntity userInfo = store.state.userInfo;
         return SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -130,6 +143,28 @@ class _MinePageState extends State<MinePage>
                       );
                     },
                     itemCount: widget._listForTitle.length),
+              ),
+              Offstage(
+                child: Container(
+                  margin: const EdgeInsets.only(top: 80),
+                  child: MaterialButton(
+                    minWidth: 300,
+                    onPressed: () => _logOut(store),
+                    child: Text(
+                      '退出登录',
+                      style:
+                          TextStyle(fontSize: 15, color: ColorConf.colorFFFFFF),
+                    ),
+                    color: ColorConf.colorGreen,
+                    textColor: ColorConf.colorFFFFFF,
+                    padding: const EdgeInsets.only(
+                        left: 20, right: 20, top: 10, bottom: 10),
+                    shape: RoundedRectangleBorder(
+                        side: BorderSide.none,
+                        borderRadius: BorderRadius.circular(50)),
+                  ),
+                ),
+                offstage: userInfo == null,
               )
             ],
           ),

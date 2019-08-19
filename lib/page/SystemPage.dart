@@ -135,7 +135,7 @@ class _SystemPageState extends State<SystemPage>
             ),
             Container(
               height: 3,
-              color: _currIndex == index ? Colors.green : ColorConf.colorFFFFFF,
+              color: _currIndex == index ? ColorConf.colorGreen : ColorConf.colorFFFFFF,
             )
           ],
         ),

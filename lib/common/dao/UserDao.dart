@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_app/common/bean/impl/user_info_impl_entity.dart';
 import 'package:flutter_app/utils/cache/CacheKey.dart';
 import 'package:flutter_app/utils/cache/SpUtils.dart';
+import 'package:flutter_app/utils/http/HttpUtils.dart';
 import 'package:flutter_app/utils/toast/ToastUtils.dart';
 
 import 'BaseDao.dart';
@@ -47,5 +48,14 @@ class UserDao extends BaseDao {
       SpUtils.saveString(CacheKey.cacheUserInfo, json.encode(_userInfo));
       success(_userInfo);
     }, error: error);
+  }
+
+  logOut(Function success) {
+    getHttpUtils().get('user/logout/json', (value) {
+      SpUtils.clean(CacheKey.cacheUserInfo);
+      SpUtils.clean(CacheKey.cacheCookie);
+      HttpUtils.getInstance().cookie = "";
+      success();
+    });
   }
 }
