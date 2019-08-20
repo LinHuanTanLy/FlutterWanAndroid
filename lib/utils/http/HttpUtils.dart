@@ -119,6 +119,9 @@ class HttpUtils {
     } on DioError catch (e) {
       ToastUtils.showTs(e.message);
     }
+
+
+    debugPrint('response data is ${response.data}');
     if (response != null) {
       if (response.statusCode == 200) {
         if (url.contains('login')) {

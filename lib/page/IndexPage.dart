@@ -14,6 +14,7 @@ import 'package:flutter_app/widget/LyAppBar.dart';
 import 'article/ArticleDetailPage.dart';
 import 'article/ArticleListPage.dart';
 import 'index/IndexWeChatPubPart.dart';
+import 'index/search/SearchPage.dart';
 import 'login/LoginPage.dart';
 
 class _IndexPageState extends State<IndexPage>
@@ -35,13 +36,13 @@ class _IndexPageState extends State<IndexPage>
         _bannerBeanImplEntity = result;
       });
     });
-    _articleDao.getArticleTop((value){
+    _articleDao.getArticleTop((value) {
       setState(() {
         debugPrint('the value is ${value.data.datas.length}');
         _articleTopImplEntity = value;
       });
     });
-    _projectDao.getProjectTree((value){
+    _projectDao.getProjectTree((value) {
       setState(() {
         debugPrint('the value is $value');
         _projectTreeImplEntity = value;
@@ -248,7 +249,7 @@ class _IndexPageState extends State<IndexPage>
         onBannerClickListener: (index, data) {
           Navigator.push(context,
               new MaterialPageRoute(builder: (BuildContext context) {
-            return new ArticleDetailPage(data.title, data.url,data.id,false);
+            return new ArticleDetailPage(data.title, data.url, data.id, false);
           }));
         },
       ),
@@ -260,7 +261,7 @@ class _IndexPageState extends State<IndexPage>
         callBackForInput: () {
           Navigator.push(context,
               new MaterialPageRoute(builder: (BuildContext context) {
-            return new LoginPage();
+            return new SearchPage();
           }));
         },
         callBackForRight: () {});
