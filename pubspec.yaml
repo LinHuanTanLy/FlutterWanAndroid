@@ -14,104 +14,129 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
+  flutter_web: any
+  flutter_web_ui: any
   banner: ^0.1.3
   dio: ^2.1.13
   flutter_webview_plugin: ^0.3.5
   flutter_easyrefresh: ^1.2.7
   flutter_staggered_grid_view: "^0.2.7"
-
+  fluttertoast: ^3.1.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+#  cupertino_icons: ^0.1.2
+  redux: ^3.0.0
+  flutter_redux: ^0.5.3
+#  shared_preferences: ^0.5.3+4
+  flutter_spinkit: "^3.1.0"     #加载菊花
+  cookie_jar: ^1.0.0
+
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+#  flutter_test:
+#    sdk: flutter
+    # Enables the `pub run build_runner` command
+  build_runner: ^1.4.0
+    # Includes the JavaScript compilers
+  build_web_compilers: ^2.0.0
 
+dependency_overrides:
+  flutter_web:
+    git:
+      url: https://github.com/flutter/flutter_web
+      path: packages/flutter_web
+  flutter_web_ui:
+    git:
+      url: https://github.com/flutter/flutter_web
+      path: packages/flutter_web_ui
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
-flutter:
+#flutter:
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: true
+#  uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - images/me_icon_shouye.png
-    - images/me_icon_faxian.png
-    - images/me_icon_wo.png
-    - images/huime_icon_shouye.png
-    - images/huime_icon_wo.png
-    - images/huime_icon_faxian.png
-    - images/icon_like.png
-    - images/ani_1.png
-    - images/ani_2.png
-    - images/ani_3.png
-    - images/ani_4.png
-    - images/ani_5.png
-    - images/ani_6.png
-    - images/ani_7.png
-    - images/ani_8.png
-    - images/ani_9.png
-    - images/ani_10.png
-    - images/ani_11.png
-    - images/ani_12.png
-    - images/ani_13.png
-    - images/ani_14.png
-    - images/ani_15.png
-    - images/ani_16.png
-    - images/ani_17.png
-    - images/ani_18.png
-    - images/ani_19.png
-    - images/ani_20.png
-    - images/ani_21.png
-    - images/ani_22.png
-    - images/ani_23.png
-    - images/ani_24.png
-    - images/ani_25.png
-    - images/ani_26.png
-    - images/ani_27.png
-    - images/ani_28.png
-    - images/ani_29.png
-    - images/ani_30.png
-    - images/ani_31.png
-    - images/ani_32.png
-    - images/icon_author.png
-    - images/right_arrow.png
-    - images/fire.png
-    - images/projects.png
-    - images/wechat_public.png
-    - images/author_pic0.jpg
-    - images/author_pic1.jpg
-    - images/author_pic2.jpg
-    - images/author_pic3.jpg
-    - images/author_pic4.jpg
-    - images/author_pic5.jpg
-    - images/author_pic6.jpg
-    - images/author_pic7.jpg
-    - images/author_pic8.jpg
-    - images/author_pic9.jpg
-    - images/author_pic10.jpg
-    - images/author_pic11.jpg
-    - images/author_pic12.jpg
-    - images/author_pic13.jpg
-    - images/author_pic14.jpg
-    - images/author_pic15.jpg
-    - images/author_pic16.jpg
-    - images/author_pic17.jpg
-    - images/author_pic18.jpg
-    - images/icon_eye_close.png
-    - images/icon_eye_open.png
+#  assets:
+#    - images/me_icon_shouye.png
+#    - images/me_icon_faxian.png
+#    - images/me_icon_wo.png
+#    - images/huime_icon_shouye.png
+#    - images/huime_icon_wo.png
+#    - images/huime_icon_faxian.png
+#    - images/icon_like.png
+#    - images/ani_1.png
+#    - images/ani_2.png
+#    - images/ani_3.png
+#    - images/ani_4.png
+#    - images/ani_5.png
+#    - images/ani_6.png
+#    - images/ani_7.png
+#    - images/ani_8.png
+#    - images/ani_9.png
+#    - images/ani_10.png
+#    - images/ani_11.png
+#    - images/ani_12.png
+#    - images/ani_13.png
+#    - images/ani_14.png
+#    - images/ani_15.png
+#    - images/ani_16.png
+#    - images/ani_17.png
+#    - images/ani_18.png
+#    - images/ani_19.png
+#    - images/ani_20.png
+#    - images/ani_21.png
+#    - images/ani_22.png
+#    - images/ani_23.png
+#    - images/ani_24.png
+#    - images/ani_25.png
+#    - images/ani_26.png
+#    - images/ani_27.png
+#    - images/ani_28.png
+#    - images/ani_29.png
+#    - images/ani_30.png
+#    - images/ani_31.png
+#    - images/ani_32.png
+#    - images/icon_author.png
+#    - images/right_arrow.png
+#    - images/fire.png
+#    - images/projects.png
+#    - images/wechat_public.png
+#    - images/author_pic0.jpg
+#    - images/author_pic1.jpg
+#    - images/author_pic2.jpg
+#    - images/author_pic3.jpg
+#    - images/author_pic4.jpg
+#    - images/author_pic5.jpg
+#    - images/author_pic6.jpg
+#    - images/author_pic7.jpg
+#    - images/author_pic8.jpg
+#    - images/author_pic9.jpg
+#    - images/author_pic10.jpg
+#    - images/author_pic11.jpg
+#    - images/author_pic12.jpg
+#    - images/author_pic13.jpg
+#    - images/author_pic14.jpg
+#    - images/author_pic15.jpg
+#    - images/author_pic16.jpg
+#    - images/author_pic17.jpg
+#    - images/author_pic18.jpg
+#    - images/icon_eye_close.png
+#    - images/icon_eye_open.png
+#    - images/bg.png
+#    - images/icon_favor.png
+#    - images/icon_favor_select.png
+#    - images/me_icon_shoucang.png
+#    - images/me_icon_yaoqing.png
+#    - images/me_icon_zhishu.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

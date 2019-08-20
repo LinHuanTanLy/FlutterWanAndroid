@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_web/material.dart';
 import 'package:flutter_app/common/bean/impl/article_list_impl_entity.dart';
 import 'package:flutter_app/common/dao/ArticleDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
@@ -34,7 +34,7 @@ class _ArticleListPageState extends State<ArticleListPage> {
   }
 
   _loadList() {
-    _articleDao.getArticleTop(page: _currPage).then((value) {
+    _articleDao.getArticleTop((value){
       setState(() {
         if (_currPage == 0) {
           _articleList.clear();
@@ -43,7 +43,7 @@ class _ArticleListPageState extends State<ArticleListPage> {
           _articleList.addAll(value.data.datas);
         }
       });
-    });
+    },page: _currPage);
   }
 
   @override

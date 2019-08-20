@@ -1,6 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_web/material.dart';
+import 'package:flutter_app/common/dao/UserDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
+import 'package:flutter_app/redux/AppState.dart';
+import 'package:flutter_app/redux/action/UserUpdateAction.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
+import 'package:flutter_app/widget/ShowLoadDialog.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 
 import 'LoginTopPart.dart';
 import 'RegisterPage.dart';
@@ -18,10 +24,45 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _ifShowPsd = true;
 
+  UserDao _userDao;
+
+  /// 登录
+  _doLogin(Store<AppState> store) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return ShowLoadDialog(
+            dismissDialog: _userDao.login(
+                _controllerForPhone.text, _controllerForPsd.text, (value) {
+              ShowLoadDialog.popDialog(context, voidCallback: () {
+                Navigator.of(context).pop();
+              });
+              if (value.data != null) {
+                store.dispatch(UserUpdateAction(UserInfoAction.update, value));
+              }
+            }, (resultCode) {
+              ShowLoadDialog.popDialog(context);
+            }),
+          );
+        });
+  }
+
+  /// 去注册页面
+  _toRegisterPage(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return RegisterPage();
+    })).then((value) {
+      if(value=='finish'){
+        Navigator.of(context).pop();
+      }
+    });
+  }
+
   @override
   void initState() {
-    _controllerForPhone = new TextEditingController();
-    _controllerForPsd = new TextEditingController();
+    _controllerForPhone = new TextEditingController(text: '15622715239');
+    _controllerForPsd = new TextEditingController(text: '123456');
+    _userDao = new UserDao();
     super.initState();
   }
 
@@ -37,7 +78,8 @@ class _LoginPageState extends State<LoginPage> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              LoginTopPart(height:_topHeight,title:'LOG IN',desc:'不积跬步无以至千里'),
+              LoginTopPart(
+                  height: _topHeight, title: 'LOG IN', desc: '不积跬步无以至千里'),
               Container(
                 height: _centerHeight,
                 padding: const EdgeInsets.only(left: 30, right: 30, top: 10),
@@ -68,21 +110,26 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    MaterialButton(
-                      minWidth: 300,
-                      onPressed: () {},
-                      child: Text(
-                        '登录',
-                        style: TextStyle(
-                            fontSize: 15, color: ColorConf.colorFFFFFF),
-                      ),
-                      color: ColorConf.colorGreen,
-                      textColor: ColorConf.colorFFFFFF,
-                      padding: const EdgeInsets.only(
-                          left: 20, right: 20, top: 10, bottom: 10),
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide.none,
-                          borderRadius: BorderRadius.circular(50)),
+                    StoreConnector<AppState, Store<AppState>>(
+                      converter: (store) => store,
+                      builder: (context, Store<AppState> store) {
+                        return MaterialButton(
+                          minWidth: 300,
+                          onPressed: () => _doLogin(store),
+                          child: Text(
+                            '登录',
+                            style: TextStyle(
+                                fontSize: 15, color: ColorConf.colorFFFFFF),
+                          ),
+                          color: ColorConf.colorGreen,
+                          textColor: ColorConf.colorFFFFFF,
+                          padding: const EdgeInsets.only(
+                              left: 20, right: 20, top: 10, bottom: 10),
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide.none,
+                              borderRadius: BorderRadius.circular(50)),
+                        );
+                      },
                     ),
                     Container(
                       margin: const EdgeInsets.only(right: 10, top: 4),
@@ -93,12 +140,10 @@ class _LoginPageState extends State<LoginPage> {
                               fontSize: 13, color: ColorConf.color929292),
                         ),
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context){
-                              return RegisterPage();
-                          }));
+                          _toRegisterPage(context);
                         },
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

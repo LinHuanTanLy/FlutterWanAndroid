@@ -1,9 +1,11 @@
 import 'dart:collection';
-
+import 'dart:convert';
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_app/utils/toast/ToastUtils.dart';
 
-import 'ResultData.dart';
-
+/// 网络请求工具类
 class HttpUtils {
   static const CONTENT_TYPE_JSON = "application/json";
   static const CONTENT_TYPE_FORM = "application/x-www-form-urlencoded";
@@ -25,10 +27,32 @@ class HttpUtils {
       receiveTimeout: 3000,
     );
     _dio = new Dio(options);
+    _dio.interceptors.add(CookieManager(CookieJar()));
   }
 
-  netFetch(url, {params, Map<String, dynamic> header, Options options}) async {
-    print('the url is $url');
+  get(url, Function success, {Function error}) {
+    return netFetch(url, success: success, error: error);
+  }
+
+  post(url, Map<String, dynamic> params, Function success, {Function error}) {
+    FormData formData = new FormData();
+    if (params != null) {
+      formData = FormData.from(params);
+    }
+    return netFetch(url,
+        params: formData,
+        options: Options(method: 'post'),
+        error: error,
+        success: success);
+  }
+
+  /// 网络请求基类
+  netFetch(url,
+      {params,
+      Map<String, dynamic> header,
+      Options options,
+      Function success,
+      Function error}) async {
     Map<String, dynamic> headers = new HashMap();
     if (header != null) {
       headers.addAll(header);
@@ -40,29 +64,65 @@ class HttpUtils {
       options.headers = headers;
     }
 
-    resultError(DioError e) {
-      Response errResponse;
-      if (e.response != null) {
-        errResponse = e.response;
+
+    _dealWith(var dataMap){
+      int errCode = dataMap['errorCode'] ?? -1;
+      String errMsg = dataMap['errorMsg'] ?? '网络不给力';
+      if (errCode == 0) {
+//          业务上的成功
+        success(dataMap);
       } else {
-        errResponse = new Response(statusCode: 500);
+//          业务上的失败
+        if (error != null) {
+          debugPrint('error is $error');
+          debugPrint('errCode is $errCode');
+          error(errCode);
+        }
+        ToastUtils.showTs(errMsg);
       }
-      if (e.type == DioErrorType.CONNECT_TIMEOUT ||
-          e.type == DioErrorType.RECEIVE_TIMEOUT) {
-        errResponse.statusCode = 400;
-      }
-      return new ResultData(null, false, errResponse.statusCode);
     }
+
+
 
     Response response;
     try {
       response = await _dio.request(url, data: params, options: options);
     } on DioError catch (e) {
-      return resultError(e);
+      ToastUtils.showTs(e.message);
     }
-    if (response.data is DioError) {
-      return resultError(response.data);
+    if (response != null) {
+      if (response.statusCode == 200) {
+        //网络请求情况下的成功
+        debugPrint('data is ${response.data}');
+        String dataStr = json.encode(response.data);
+        debugPrint('dataStr is $dataStr');
+        var dataMap = json.decode(dataStr);
+        debugPrint('is String = ${dataMap is String}');
+        debugPrint('is Map = ${dataMap is Map}');
+        debugPrint('dataMap is $dataMap');
+        if(dataMap is Map<String,dynamic>){
+          _dealWith(dataMap);
+        }else{
+          var myResult=json.decode(dataMap);
+          debugPrint('myResult is String = ${myResult is String}');
+          debugPrint('myResult is Map = ${myResult is Map}');
+          debugPrint('myResult is $myResult');
+          ToastUtils.showTs('网络不给力');
+          if(myResult is Map){
+            _dealWith(dataMap);
+          }else{
+            ToastUtils.showTs('网络不给力');
+          }
+        }
+      } else {
+        // 网络请求情况下的失败
+        ToastUtils.showTs('网络不给力');
+      }
+    } else {
+      // 网络请求情况下的失败
+      ToastUtils.showTs('网络不给力');
     }
-    return response.data;
   }
+
+
 }

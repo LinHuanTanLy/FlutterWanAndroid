@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_web/material.dart';
 import 'package:flutter_app/common/bean/impl/we_chat_pub_list_impl_entity.dart';
 import 'package:flutter_app/common/dao/WeChatPubDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
@@ -19,7 +19,7 @@ class _IndexWeChatPubPartState extends State<IndexWeChatPubPart>
   @override
   void initState() {
     _weChatPubDao = new WeChatPubDao();
-    _weChatPubDao.getWeChatList().then((value) {
+    _weChatPubDao.getWeChatList((value){
       setState(() {
         List<WeChatPubListImplData> _list = [];
         _list.addAll(value.data);

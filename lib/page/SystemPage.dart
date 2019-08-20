@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:flutter_web/material.dart';
 import 'package:flutter_app/common/bean/impl/blog_list_impl_entity.dart';
 import 'package:flutter_app/common/bean/impl/system_tree_impl_entity.dart';
 import 'package:flutter_app/common/dao/SystemDao.dart';
@@ -9,6 +9,7 @@ import 'package:flutter_app/page/system/SystemArticlePage.dart';
 import 'package:flutter_app/widget/LyAppBar.dart';
 
 import 'article/ArticleDetailPage.dart';
+
 ///  体系页面
 class SystemPage extends StatefulWidget {
   @override
@@ -52,20 +53,21 @@ class _SystemPageState extends State<SystemPage>
     Color(0XFFFF4500),
     Color(0XFFCD5C5C),
     Color(0XFFFF6347),
-
   ];
 
   @override
   void initState() {
     _dao = new SystemDao();
-    _dao.getSystemTree().then((value) {
+    _dao.getSystemTree((value) {
       setState(() {
         _listForSystemList.addAll(value.data);
       });
     });
 
-    _dao.getBlogList().then((value) {
-      _listForBlog.addAll(value.data);
+    _dao.getBlogList((value) {
+      setState(() {
+        _listForBlog.addAll(value.data);
+      });
     });
     super.initState();
   }
@@ -153,7 +155,7 @@ class _SystemPageState extends State<SystemPage>
         itemCount: _currIndex == 0
             ? _listForBlog.length
             : _listForSystemList.isNotEmpty
-                ? _listForSystemList[_currIndex].children.length
+                ? _listForSystemList[_currIndex-1].children.length
                 : 0,
         padding: const EdgeInsets.only(left: 10, top: 10, right: 10),
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -174,7 +176,7 @@ class _SystemPageState extends State<SystemPage>
                 child: Text(
                   _currIndex == 0
                       ? _listForBlog[index].name
-                      : _listForSystemList[_currIndex].children[index].name,
+                      : _listForSystemList[_currIndex-1].children[index].name,
                   style: TextStyle(
                     fontSize: 14,
                     color: ColorConf.colorFFFFFF,
@@ -189,11 +191,11 @@ class _SystemPageState extends State<SystemPage>
                   new MaterialPageRoute(builder: (BuildContext context) {
                 if (_currIndex != 0) {
                   return new SystemArticlePage(
-                    cId: _listForSystemList[_currIndex]
+                    cId: _listForSystemList[_currIndex-1]
                         .children[index]
                         .id
                         .toString(),
-                    title: _listForSystemList[_currIndex].children[index].name,
+                    title: _listForSystemList[_currIndex-1].children[index].name,
                   );
                 } else {
                   return new ArticleDetailPage(

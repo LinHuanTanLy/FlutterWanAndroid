@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_web/material.dart';
 import 'package:flutter_app/common/bean/impl/we_chat_pub_child_list_impl_entity.dart';
 import 'package:flutter_app/common/dao/WeChatPubDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
@@ -40,15 +40,13 @@ class _WeChatPubChildPageState extends State<WeChatPubChildPage>
   }
 
   _loadPubList() {
-    _weChatPubDao.getWeChatChildList(_currIndex, pubId).then((value) {
-      if (value.data != null) {
-        setState(() {
-          if (_currIndex == 1) {
-            _listForPubList.clear();
-          }
-          _listForPubList.addAll(value.data.datas);
-        });
-      }
+    _weChatPubDao.getWeChatChildList(_currIndex, pubId, (value) {
+      setState(() {
+        if (_currIndex == 1) {
+          _listForPubList.clear();
+        }
+        _listForPubList.addAll(value.data.datas);
+      });
     });
   }
 
@@ -104,42 +102,50 @@ class _WeChatPubChildPageState extends State<WeChatPubChildPage>
   }
 
   Widget _renderListItem(WeChatPubChildListImplDataData data) {
-    return InkWell(child: Container(
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 6),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            data.title,
-            style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: ColorConf.color000000),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 14),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  data.author,
-                  style: TextStyle(color: ColorConf.color929292, fontSize: 12),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(left: 20),
-                  child: Text(data.niceDate,style: TextStyle(color: ColorConf.color929292, fontSize: 13),),
-                )
-              ],
+    return InkWell(
+      child: Container(
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 6),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              data.title,
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: ColorConf.color000000),
             ),
-          )
-        ],
+            Container(
+              margin: const EdgeInsets.only(top: 14),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    data.author,
+                    style:
+                        TextStyle(color: ColorConf.color929292, fontSize: 12),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 20),
+                    child: Text(
+                      data.niceDate,
+                      style:
+                          TextStyle(color: ColorConf.color929292, fontSize: 13),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
-    ),onTap: (){
-      Navigator.push(context,
-          new MaterialPageRoute(builder: (BuildContext context) {
-            return new ArticleDetailPage(data.title, data.link);
-          }));
-    },);
+      onTap: () {
+        Navigator.push(context,
+            new MaterialPageRoute(builder: (BuildContext context) {
+          return new ArticleDetailPage(data.title, data.link);
+        }));
+      },
+    );
   }
 
   @override

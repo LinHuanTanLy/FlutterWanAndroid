@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_web/material.dart';
 import 'package:flutter_app/common/bean/impl/project_tree_impl_entity.dart';
 import 'package:flutter_app/common/dao/ProjectDao.dart';
 import 'package:flutter_app/conf/ColorConf.dart';
@@ -28,7 +28,7 @@ class _ProjectsListPageState extends State<ProjectsListPage>
     _projectDao = new ProjectDao();
     super.initState();
 
-    _projectDao.getProjectTree().then((value) {
+    _projectDao.getProjectTree((value) {
       setState(() {
         if (value.data != null) {
           _list.addAll(value.data);
@@ -77,9 +77,10 @@ class _ProjectsListPageState extends State<ProjectsListPage>
   /// 初始化tab里面的子Widget
   List<Widget> _initTabView() {
     return _list
-        .map((e) => Tab(
-              text: e.name,
-            ))
+        .map((e) =>
+        Tab(
+          text: e.name,
+        ))
         .toList();
   }
 }
