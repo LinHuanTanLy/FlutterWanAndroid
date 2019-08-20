@@ -53,24 +53,24 @@ class LyAppBar {
               onTap: callBackForInput,
             ),
           ),
-          GestureDetector(
-            child: Container(
-                child: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.settings,
-                      size: 18,
-                    ),
-                    Text(
-                      '标签',
-                      style:
-                          TextStyle(fontSize: 15, color: ColorConf.colorFFFFFF),
-                    )
-                  ],
-                ),
-                margin: const EdgeInsets.only(left: 10)),
-            onTap: callBackForRight,
-          )
+//          GestureDetector(
+//            child: Container(
+//                child: Row(
+//                  children: <Widget>[
+//                    Icon(
+//                      Icons.settings,
+//                      size: 18,
+//                    ),
+//                    Text(
+//                      '标签',
+//                      style:
+//                          TextStyle(fontSize: 15, color: ColorConf.colorFFFFFF),
+//                    )
+//                  ],
+//                ),
+//                margin: const EdgeInsets.only(left: 10)),
+//            onTap: callBackForRight,
+//          )
         ],
       ),
     );

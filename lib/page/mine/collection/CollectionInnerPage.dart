@@ -55,7 +55,7 @@ class _CollectionInnerPageState extends State<CollectionInnerPage> {
       debugPrint('empty');
       setState(() {
         isLoading = false;
-        isEmpty = true;
+        isEmpty = _currPageIndex == 0;
       });
     });
   }

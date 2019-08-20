@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/common/bean/impl/user_info_impl_entity.dart';
 import 'package:flutter_app/common/dao/UserDao.dart';
@@ -40,6 +41,36 @@ _logOut(Store<AppState> store) {
 
 class _MinePageState extends State<MinePage>
     with AutomaticKeepAliveClientMixin {
+  _toLogin() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text('注意'),
+            content: Text('您还未登录，是否现在去登录？'),
+            actions: <Widget>[
+              FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                    Navigator.push(context,
+                        new MaterialPageRoute(builder: (BuildContext context) {
+                      return new LoginPage();
+                    }));
+                  },
+                  child: Text(
+                    '好的',
+                    style: TextStyle(color: ColorConf.colorGreen),
+                  )),
+              FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: Text('就不')),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context); //必须添加
@@ -91,10 +122,7 @@ class _MinePageState extends State<MinePage>
                             ),
                             onTap: () {
                               if (userInfo == null || userInfo.data == null) {
-                                Navigator.push(context, new MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                                  return new LoginPage();
-                                }));
+                                _toLogin();
                               }
                             },
                           ),
@@ -120,10 +148,14 @@ class _MinePageState extends State<MinePage>
                     itemBuilder: (context, index) {
                       return _renderListViewItem(widget._listForIcon[index],
                           widget._listForTitle[index], () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                          return widget._listForWidget[index];
-                        }));
+                        if (userInfo == null || userInfo.data == null) {
+                          _toLogin();
+                        } else {
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return widget._listForWidget[index];
+                          }));
+                        }
                       });
                     },
                     separatorBuilder: (BuildContext context, index) {
@@ -153,7 +185,7 @@ class _MinePageState extends State<MinePage>
                         borderRadius: BorderRadius.circular(50)),
                   ),
                 ),
-                offstage: userInfo == null,
+                offstage: userInfo == null || userInfo.data == null,
               )
             ],
           ),

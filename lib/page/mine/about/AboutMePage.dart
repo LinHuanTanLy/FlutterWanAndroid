@@ -4,20 +4,25 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 /// 关于我
 class AboutMePage extends StatefulWidget {
-
-
   @override
   _AboutMePageState createState() => _AboutMePageState();
 }
 
 class _AboutMePageState extends State<AboutMePage> {
-  FlutterWebviewPlugin flutterWebViewPlugin = FlutterWebviewPlugin();
+  FlutterWebviewPlugin flutterWebViewPlugin;
 
-  String _url='https://github.com/LinHuanTanLy';
+  String _url = 'https://github.com/LinHuanTanLy';
 
   @override
   void initState() {
     super.initState();
+    flutterWebViewPlugin = FlutterWebviewPlugin();
+  }
+
+  @override
+  void dispose() {
+    flutterWebViewPlugin = null;
+    super.dispose();
   }
 
   @override

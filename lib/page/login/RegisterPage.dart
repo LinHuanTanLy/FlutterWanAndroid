@@ -48,9 +48,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void initState() {
-    _controllerForPhone = new TextEditingController(text: '15223423232715339');
-    _controllerForPsd = new TextEditingController(text: '123456');
-    _controllerForPasConfirm = new TextEditingController(text: '123456');
+    _controllerForPhone = new TextEditingController();
+    _controllerForPsd = new TextEditingController();
+    _controllerForPasConfirm = new TextEditingController();
     super.initState();
   }
 

@@ -60,8 +60,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    _controllerForPhone = new TextEditingController(text: '15622715239');
-    _controllerForPsd = new TextEditingController(text: '123456');
+    _controllerForPhone = new TextEditingController();
+    _controllerForPsd = new TextEditingController();
     _userDao = new UserDao();
     super.initState();
   }
